@@ -1,0 +1,39 @@
+<div *ngIf="$movieDetails | async as movie" class="container">
+    <div class="row column-md main-head">
+      <div class="poster-section">
+        <img [src]="movie.profile_path ? 'https://image.tmdb.org/t/p/w500'+movie.profile_path : 'assets/no_poster.jpg'"
+          alt="">
+      </div>
+      <div class="tv-details">
+        <h3 class="title">{{movie.name}}</h3>
+        <span class="genres">{{movie.place_of_birth}}</span>
+        <div class="p-tb-1"></div>
+        <i class="tag-line">{{movie.known_for_department}}</i>
+        <div class="p-tb-1"></div>
+        <h4 class="title-header" *ngIf="movie.biography">Biography :</h4>
+        <div class="p-t-1"></div>
+        <p class="overview">{{movie.biography}}</p>
+        <div class="p-tb-1"></div>
+        <h6 class="language" *ngIf="movie.birthday">Birthday : <span>{{movie.birthday | date:'longDate'}}</span>
+        </h6>
+        <h6 class="language" *ngIf="movie.also_known_as.length !== 0">Also Known As : <span
+            *ngFor="let lag of movie.also_known_as; let i=index">{{(movie.also_known_as.length - 1) === i ?
+            lag : lag+", "}}</span></h6>
+        <div class="p-tb-1"></div>
+      </div>
+    </div>
+    <!-- <mat-list *ngIf="$credits | async as credits">
+      <ng-container *ngFor="let cast of credits.cast">
+        <mat-list-item>
+          <img [src]="'https://image.tmdb.org/t/p/w500'+(cast.poster_path || cast.poster_path)" alt="">
+          {{(cast.release_date || cast.first_air_date) | date:'yyyy'}} {{cast.original_name || cast.title || cast.name}} | {{cast.media_type}}
+        </mat-list-item>
+        <mat-divider></mat-divider>
+      </ng-container>
+    </mat-list> -->
+    <div *ngIf="$credits | async as credits" class="cast-list">
+      <ng-container *ngFor="let cast of credits.cast">
+        <app-card [credits]="cast"></app-card>
+      </ng-container>
+    </div>
+  </div>

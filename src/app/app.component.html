@@ -1,0 +1,88 @@
+<div class="example-container" [class.example-is-mobile]="mobileQuery.matches" appTheme>
+  <mat-sidenav-container class="example-sidenav-container">
+    <mat-sidenav #snav [mode]="mobileQuery.matches?'over':'side'" disableClose="true" [opened]="!mobileQuery.matches"
+      class="example-side-nav">
+      <div style="float: right" *ngIf="mobileQuery.matches">
+        <button mat-icon-button (click)="snav.toggle()">
+          <mat-icon svgIcon="menu"></mat-icon>
+        </button>
+      </div>
+      <div class="nav-div column">
+        <mat-slide-toggle class="toggle" (change)="changeToggle($event)">
+          <span>Change Theme!</span>
+        </mat-slide-toggle>
+        <mat-expansion-panel *ngFor="let link of links">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{link.name}}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-nav-list class="nav-list">
+            <a mat-list-item *ngFor="let nav of link.links" routerLinkActive="active" routerLink="/{{link.link}}/{{nav.path}}">
+              <span class="link-name">{{nav.name}}</span>
+            </a>
+          </mat-nav-list>
+        </mat-expansion-panel>
+      </div>
+      <mat-divider></mat-divider>
+      <ng-container>
+        <div class="filter">
+          <p class="m-b-20">Filter</p>
+          <form class="example-form" [formGroup]="languageForm" (ngSubmit)="onSubmitLanguage(languageForm.value)">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label class="lable">Language</mat-label>
+              <input type="text" placeholder="Languages" class="input-lang" aria-label="Languages" matInput formControlName="language"
+                [matAutocomplete]="movieLanguage">
+              <mat-autocomplete autoActiveFirstOption #movieLanguage="matAutocomplete"
+                [displayWith]="displayLanguageFn" class="auto-complete">
+                <mat-option *ngFor="let lang of langauges" [value]="lang" class="options">
+                  <span>{{lang.english_name}}</span>
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            <div class="row justify-content-flex-end">
+              <button mat-raised-button type="submit" class="lang-sub" color="primary">Search</button>
+            </div>
+          </form>
+        </div>
+      </ng-container>
+    </mat-sidenav>
+    <mat-sidenav-content class="sidenav-content">
+      <div class="sidenav-div">
+        <div *ngIf="mobileQuery.matches" class="button-menu">
+          <button mat-icon-button (click)="snav.toggle()">
+            <mat-icon svgIcon="menu"></mat-icon>
+          </button>
+        </div>
+        <div class="routerdata">
+          <div class="search-bar">
+            <form [formGroup]="searchForm" (ngSubmit)="onSubmitMovieSearch(searchForm.value)" class="example-form">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label class="lable">Search {{currentRoute}}</mat-label>
+                <input class="input-lang" matInput [matAutocomplete]="auto" formControlName="movie">
+                <button mat-icon-button matSuffix (click)="onSubmitMovieSearch(searchForm.value)">
+                  <mat-icon>search</mat-icon>
+                </button>
+                <mat-autocomplete #auto="matAutocomplete" class="auto-complete" autoActiveFirstOption [displayWith]="displayFn" #scroller>
+                  <mat-option *ngFor="let option of filteredOptions | async" [value]="option" class="options">
+                    <div class="row align-items-center">
+                      <img class="example-option-img" aria-hidden
+                        [src]="option.poster_path || option.profile_path ? 'https://image.tmdb.org/t/p/w500'+(option.poster_path || option.profile_path) : 'assets/no_poster.jpg'"
+                        height="40">
+                      <div class="text-drop">
+                        <p>{{ option.title || option.name }} {{ option.original_title ? '|'+option.original_title : '' }}</p>
+                        <p class="sub-title-val">{{option.known_for_department || getLang(option.original_language)}} |
+                          {{option.vote_average || option.popularity }}</p>
+                      </div>
+                    </div>
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </form>
+          </div>
+          <router-outlet (activate)="ActivetedRouter($event)"></router-outlet>
+        </div>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
