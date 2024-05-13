@@ -20,25 +20,19 @@ h1.example-app-name {
   margin: 20px 40px 0px;
 }
 
-.example-full-width {
-  width: 100%;
-  color: var(--text-color);
-}
-.options span {
-  color: var(--text-color);
-}
+// .options span {
+//   color: var(--text-color);
+// }
 
-.options:hover {
-  background-color: var(--app-background) !important;
-}
+// .options:hover {
+//   background-color: var(--app-background) !important;
+// }
 
-.mat-option.mat-active {
-  background-color: var(--app-background) !important;
-}
+// .mat-option.mat-active {
+//   background-color: var(--app-background) !important;
+// }
 
-.lable {
-  color: var(--text-color);
-}
+
 
 .sidenav-div {
   width: 100%;
@@ -103,15 +97,4 @@ h1.example-app-name {
 
 .toggle {
   margin: 0px 20px 20px;
-}
-.sub-title-val {
-  margin: 0px;
-  display: flex;
-  padding-top: 6px !important;
-  flex-direction: row;
-  align-items: center;
-  font-size: 12px;
-}
-.input-lang {
-  color: var(--text-color) !important; 
 }

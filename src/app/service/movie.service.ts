@@ -89,4 +89,7 @@ export class MovieService {
   setTitle(name: any): void {
     this.title.setTitle(name);
   }
+  get regions(): Observable<any> {
+    return this.http.get("/watch/providers/regions?language=en-US&api_key=")
+  }
 }

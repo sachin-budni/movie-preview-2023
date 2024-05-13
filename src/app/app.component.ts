@@ -1,26 +1,28 @@
 import { MediaMatcher } from '@angular/cdk/layout';
 import { isPlatformServer } from '@angular/common';
 import { ChangeDetectorRef, Component, ElementRef, Inject, PLATFORM_ID, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import { MovieService } from './service/movie.service';
 import { ThemeService } from './theme/theme.service';
-
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatChipInputEvent } from '@angular/material/chips';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss', './material.scss']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   activetedRouterName: any;
   URL = 'http://localhost:4000/';
   links = [
-    { 
+    {
       name: 'Movie',
       link: 'movie',
       links: [
@@ -30,7 +32,7 @@ export class AppComponent {
         { path: 'upcoming', name: 'Upcoming' },
         { path: 'top-rated', name: 'Top-Rated' },
         { path: 'now-playing', name: 'Now-Playing' }
-      ] 
+      ]
     },
     {
       name: 'Tv-Shows',
@@ -40,7 +42,7 @@ export class AppComponent {
         { path: 'latest', name: 'Latest' },
         { path: 'upcoming', name: 'Upcoming' },
         { path: 'top-rated', name: 'Top-Rated' },
-        { path: 'now-playing', name: 'Now-Playing' }    
+        { path: 'now-playing', name: 'Now-Playing' }
       ]
     },
     {
@@ -63,18 +65,21 @@ export class AppComponent {
     { path: 'popular', name: 'Popular' },
     { path: 'latest', name: 'Latest' }
   ];
-  selectedFood: any;
-  searchForm: FormGroup = this.fb.group({});
-  languageForm: FormGroup = this.fb.group({});
   mobileQuery: MediaQueryList;
-  filteredOptions: Observable<any> = of();
   $countries: Observable<any> = of();
-  langauges: any[] = [];
   // tslint:disable-next-line: variable-name
   private _mobileQueryListener: () => void;
-  // langauges = this.movie.languages;
   @ViewChild('scroller', {static: false}) scrolls!: ElementRef;
   activeThem = 'dark';
+  regions: any[] = [];
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  @ViewChild('fruitInput') fruitInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('chipGrid') chipGrid!: any;
+  regionForm: FormGroup = this.fb.group({});
+  filteredFruits: Observable<any[]> = of([]);
+  fruitCtrl = new FormControl('');
+  selectedRegion: any[] = [];
+
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
               private movie: MovieService, private fb: FormBuilder,
@@ -98,83 +103,29 @@ export class AppComponent {
   }
 
   ngOnInit(): void {
-    this.searchForm = this.fb.group({
-      movie: []
+    this.regionForm = this.fb.group({
+      region: []
     });
-    this.languageForm = this.fb.group({
-      language: []
-    });
-    this.searchForm.controls['movie'].valueChanges.subscribe((movie: string) => {
-      if (movie && movie.length !== 0) {
-        const name = window.location.pathname.split('/')[1];
-        const routeName = name === 'people' ? 'person' : name;
-        this.filteredOptions = this.movie.searchMovieName(movie, routeName).pipe(
-          map((movies: any) => movies.results)
-        );
-      }
-    });
-    this.languageForm.controls['language'].valueChanges.subscribe((lang: string) => {
-      if (lang && lang.length && lang.length !== 0) {
-        this.langauges = this.movie.languages
-        .filter((l: any) => l.english_name.toLocaleUpperCase().indexOf(lang.toLocaleUpperCase()) !== -1);
-      }
-    });
-    this.movie.getLanguages
-    .pipe(map((lang: any[]) => {
-      const lists = lang.map((d: any) => {
-        const emp: any = new Object();
-        emp.english_name = d.english_name;
-        emp.iso_639_1 = d.iso_639_1;
-        emp.name = d.name;
-        return emp;
-      });
-      return lists.sort((a: any, b: any) => a.english_name.localeCompare(b.english_name));
-    })).subscribe((lang: any[]) => {
-      this.movie.languages = lang;
-    });
+
+    this.movie.regions
+    .subscribe((list: any)=> {
+      this.regions = list.results;
+    })
+    this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
+      startWith(null),
+      map((fruit: string | null) => (fruit ? this._filter(fruit) : this.regions.slice())),
+    );
   }
 
-  ActivetedRouter(event: any): void {
-    this.searchForm.controls['movie'].setValue('');
-    this.activetedRouterName = event;
-  }
+  private _filter(value: string | any): string[] {
+    const filterValue = typeof value == "object" ? value.native_name.toLowerCase() : value.toLowerCase();
 
-  onSubmitMovieSearch(movie: any): void {
-    const route = this.currentRoute;
-    if (movie && typeof movie !== 'string') {
-      this.router.navigate(['/'+route+'/popular', movie.movie.id ]);
-    }
-  }
-  get currentRoute() {
-    const name = window.location.pathname.split('/')[1];
-    return name; 
+    return this.regions.filter(region => region.native_name.toLowerCase().includes(filterValue));
   }
 
   ngOnDestroy(): void {
     // tslint:disable-next-line: deprecation
     this.mobileQuery.removeListener(this._mobileQueryListener);
-  }
-  displayLanguageFn(event: any): any {
-    return event ? event.english_name : event;
-  }
-
-  displayFn(value: any): any {
-    const name = value && (value.name) ? value.name : undefined;
-    const title = value && (value.title) ? value.title : value;
-    const originalTitle = value && value.original_title ? value.original_title : value;
-    if (originalTitle) {
-      return name || (originalTitle + ' | ' + title);
-    }
-    return name || title;
-  }
-
-  onSubmitLanguage(value: any): any {
-    if (!value.language) return;
-    const lastIndex = window.location.pathname.lastIndexOf('/');
-    const current = window.location.pathname.substring(0, lastIndex);
-    const realpath = current.split('/').length === 3 ? current : window.location.pathname;
-    const pathname = realpath.indexOf('people') === -1 ? realpath : '/movie/popular'
-    this.router.navigate([pathname], { queryParams: { page: 1, language: value.language.iso_639_1  } });
   }
 
   getLang(lng: any): any {
@@ -190,4 +141,11 @@ export class AppComponent {
       this.activeThem = 'dark';
     }
   }
+
+  selected(event: MatAutocompleteSelectedEvent): void {
+    this.selectedRegion.push(event.option.value);
+    this.fruitInput.nativeElement.value = '';
+    this.fruitCtrl.setValue(null);
+  }
+
 }

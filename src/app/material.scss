@@ -2,14 +2,12 @@
   vertical-align: middle;
   margin-right: 8px;
   border: 1px solid var(--text-color);
-  // width: 35px;
   object-fit: contain;
 }
 
 .text-drop p {
   margin: 0px;
   padding: 0px;
-  // padding-top: 10px;
   width: 100%;
   line-height: 16px;
   white-space: nowrap;
@@ -59,13 +57,35 @@
   width: 100% !important;
 }
 
-::ng-deep .mat-expansion-indicator::after {
-  color: var(--text-color) !important;
-}
-
 @media only screen and (max-width: 600px) {
   .search-bar {
     width: calc(100% - 20px);
     margin: 0px 10px;
   }
+}
+.example-full-width {
+  width: 100%;
+  color: var(--text-color);
+}
+
+.lable {
+  color: var(--text-color);
+}
+.input-lang {
+  color: var(--text-color) !important;
+}
+
+.mat-expansion-indicator::after {
+  color: var(--text-color) !important;
+}
+.options span {
+  color: var(--text-color);
+}
+
+.options:hover {
+  background-color: var(--app-background) !important;
+}
+
+.mat-option.mat-active {
+  background-color: var(--app-background) !important;
 }

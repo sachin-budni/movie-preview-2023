@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
@@ -23,6 +24,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MovieService } from './service/movie.service';
 import { MovieApiInterceptor } from './service/api.interceptor';
 import { ThemeService } from './theme/theme.service';
+import { UserMaterialModule } from './components/user-material.module';
 const materialModules = [
   MatSidenavModule,
   MatToolbarModule,
@@ -37,7 +39,8 @@ const materialModules = [
   MatTooltipModule,
   MatExpansionModule,
   MatPaginatorModule,
-  MatCardModule
+  MatCardModule,
+  MatChipsModule
 ];
 
 @NgModule({
@@ -51,15 +54,16 @@ const materialModules = [
     ThemeModule,
     HttpClientModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    UserMaterialModule
   ],
-  providers: [ 
+  providers: [
     MovieService,
-    { 
+    {
       provide: HTTP_INTERCEPTORS,
       useClass: MovieApiInterceptor,
-      multi: true 
-    }, 
+      multi: true
+    },
     ThemeService
   ],
   bootstrap: [AppComponent]
