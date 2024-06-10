@@ -14,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { TrendingChartComponent } from './trending-chart/trending-chart.component';
 
 
 const ANGULAR_MATERIAL = [
@@ -33,7 +34,8 @@ const ANGULAR_MATERIAL = [
     CardComponent,
     RegionFilterComponent,
     LanguageFilterComponent,
-    MovieFilterComponent
+    MovieFilterComponent,
+    TrendingChartComponent
   ],
   imports: [
     CommonModule,
@@ -46,7 +48,8 @@ const ANGULAR_MATERIAL = [
     VideoPipe,
     RegionFilterComponent,
     LanguageFilterComponent,
-    MovieFilterComponent
+    MovieFilterComponent,
+    TrendingChartComponent
   ]
 })
 export class UserMaterialModule { }

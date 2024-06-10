@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { TrendingChartComponent } from './components/trending-chart/trending-chart.component';
 
 const routes: Routes = [
-  { path: 'tv', loadChildren: () => import('./pages/tv/tv.module').then(m=> m.TvModule) },
-  { path: 'people', loadChildren: () => import('./pages/people/people.module').then(m=> m.PeopleModule) },
-  { path: '', loadChildren: () => import('./pages/movie/movie.module').then(m=> m.MovieModule) },
+  { path: '', loadChildren: () => import('./layout/layout.module').then(m=> m.LayoutModule) },
 ];
 
 @NgModule({

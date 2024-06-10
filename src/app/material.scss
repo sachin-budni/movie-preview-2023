@@ -21,18 +21,16 @@
   margin-right: 0px !important;
 }
 
+.filter > .m-b-20 {
+  margin-bottom: 20px;
+}
+.filter > p {
+  font-family: "Poppins", sans-serif;
+  color: var(--text-color);
+  font-size: 20px;
+}
 .filter {
   padding: 20px;
-
-  p {
-    font-family: "Poppins", sans-serif;
-    color: var(--text-color);
-    font-size: 20px;
-  }
-
-  .m-b-20 {
-    margin-bottom: 20px;
-  }
 }
 
 .lang-sub {

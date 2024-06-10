@@ -33,15 +33,15 @@ export class MovieService {
   getList(type: any, routerName: any, params: any): Observable<any> {
     let api = '';
     if (params.with_original_language) {
-      api = `/${type}/${routerName}?api_key=&language=en-US&page=${params.page}&with_original_language=${params.with_original_language}`;
+      api = `/${type}/${routerName}?api_key=&language=kn-IN&page=${params.page}&with_original_language=${params.with_original_language}`;
     } else {
-      api = `/${type}/${routerName}?api_key=&language=en-US&page=${params.page}`;
+      api = `/${type}/${routerName}?api_key=&language=kn-IN&page=${params.page}`;
     }
     return this.http.get<any>(api);
   }
 
-  getTrendingCharts(): any {
-    return this.http.get(`/trending/all/day?api_key=`);
+  getTrendingCharts(type: string): any {
+    return this.http.get(`/trending/${type}/day?api_key=`);
   }
 
   getDetails(id: any, type: any): any {

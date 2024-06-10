@@ -2,7 +2,9 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { EChartsOption } from 'echarts';
 import * as echarts from 'echarts';
 import { MovieService } from 'src/app/service/movie.service';
+
 const img = `width: 60px;height: 60px;border-radius: 50%;object-fit: cover;`
+
 @Component({
   selector: 'app-trending-chart',
   templateUrl: './trending-chart.component.html',
@@ -12,6 +14,7 @@ export class TrendingChartComponent implements OnInit {
   routeName = 'trendingchart';
   rating: any[] = [];
   movieTitles: any[] = [];
+  all: any[] = [];
   error: any = 'Loading...';
   @ViewChild('main', { static: true }) main!: ElementRef;
 
@@ -24,12 +27,12 @@ export class TrendingChartComponent implements OnInit {
       },
       formatter: ((val: any) => {
         console.log(val);
-        const { poster_path, name, title, vote_count, popularity } = val[0].data;
+        const { profile_path, name, original_name, vote_count, popularity } = val[0].data;
         return `
                 <div style="display: flex; ">
-                  <img style="${img}" src="https://image.tmdb.org/t/p/w500/${poster_path}" alt="${name}"/>
+                  <img style="${img}" src="https://image.tmdb.org/t/p/w500/${profile_path}" alt="${name}"/>
                   <div style="padding-left: 10px;">
-                    <h4 style="margin: 0px 0px 2px;">${title}</h4>
+                    <h4 style="margin: 0px 0px 2px;">${name}</h4>
                     <p style="margin: 2px 0px;">Votes: ${vote_count}</p>
                     <p style="margin: 2px 0px 0px;">Popularity: ${popularity}</p>
                   </div>
@@ -76,9 +79,10 @@ export class TrendingChartComponent implements OnInit {
         }
       }
     ],
+    dataset: this.all,
     series: [
       {
-        name: 'Rating',
+        name: 'Ratings',
         type: 'bar',
         barWidth: 20,
         data: this.rating
@@ -89,9 +93,10 @@ export class TrendingChartComponent implements OnInit {
   constructor(private movieService: MovieService) { }
   ngOnInit(): void {
     if (this.rating.length === 0) {
-      this.movieService.getTrendingCharts('movie').subscribe((data: any) => {
-        data.results.filter((d: any) => this.rating.push({ value: d.vote_average, ...d }));
+      this.movieService.getTrendingCharts('person').subscribe((data: any) => {
+        data.results.filter((d: any) => this.rating.push({ value: d.popularity, ...d }));
         data.results.filter((d: any) => this.movieTitles.push(d.title ? d.title : d.name));
+        this.all = data.results;
         this.error = '';
         const echart = echarts.init(this.main.nativeElement);
         echart.setOption(this.chartOption);
