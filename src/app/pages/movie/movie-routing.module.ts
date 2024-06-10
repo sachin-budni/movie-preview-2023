@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { TrendingChartComponent } from './trending-chart/trending-chart.component';
 import { MovieListComponent } from './movie-list/movie-list.component';
 import { LatestMoviesComponent } from './latest-movies/latest-movies.component';
 import { MovieDetailsComponent } from './movie-details/movie-details.component';
 import { MovieLayoutComponent } from './movie-layout/movie-layout.component';
+import { TrendingChartComponent } from 'src/app/components/trending-chart/trending-chart.component';
 const routes: Routes = [
   { path: 'movie', component: MovieLayoutComponent, children: [
       { path: 'trendingchart', component: TrendingChartComponent, data: { title: 'trendingchart', name: 'Trending Chart of Movie' } },

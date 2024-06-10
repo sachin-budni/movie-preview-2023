@@ -4,7 +4,6 @@ import { MovieRoutingModule } from './movie-routing.module';
 import { MovieListComponent } from './movie-list/movie-list.component';
 import { MovieDetailsComponent } from './movie-details/movie-details.component';
 import { MovieComponent } from './movie/movie.component';
-import { TrendingChartComponent } from './trending-chart/trending-chart.component';
 import { LatestMoviesComponent } from './latest-movies/latest-movies.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -21,6 +20,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 // import { VideoPipe } from 'src/app/pipes/video.pipe';
 import { MovieLayoutComponent } from './movie-layout/movie-layout.component';
 import { UserMaterialModule } from 'src/app/components/user-material.module';
+import { TrendingChartComponent } from 'src/app/components/trending-chart/trending-chart.component';
 
 const MATERIAL_MODULE = [
   MatSidenavModule,
@@ -50,7 +50,7 @@ const MATERIAL_MODULE = [
     CommonModule,
     MovieRoutingModule,
     MATERIAL_MODULE,
-    UserMaterialModule
+    // UserMaterialModule
   ],
   providers: []
 })

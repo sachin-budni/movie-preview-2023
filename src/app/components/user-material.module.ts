@@ -14,18 +14,32 @@ import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { TrendingChartComponent } from './trending-chart/trending-chart.component';
+// import { TrendingChartComponent } from './trending-chart/trending-chart.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatListModule } from '@angular/material/list';
+import { MatCardModule } from '@angular/material/card';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
-const ANGULAR_MATERIAL = [
-  MatDialogModule,
-  MatTooltipModule,
+const MATERIAL_MODULE = [
+  MatSidenavModule,
+  MatToolbarModule,
+  MatIconModule,
+  MatListModule,
+  MatCardModule,
+  MatButtonModule,
   MatAutocompleteModule,
   MatFormFieldModule,
-  MatIconModule,
   MatInputModule,
-  MatButtonModule
-]
+  MatSlideToggleModule,
+  MatTooltipModule,
+  MatExpansionModule,
+  MatProgressSpinnerModule,
+  MatDialogModule
+];
 
 @NgModule({
   declarations: [
@@ -35,11 +49,10 @@ const ANGULAR_MATERIAL = [
     RegionFilterComponent,
     LanguageFilterComponent,
     MovieFilterComponent,
-    TrendingChartComponent
   ],
   imports: [
     CommonModule,
-    ANGULAR_MATERIAL,
+    MATERIAL_MODULE,
     ReactiveFormsModule
   ],
   exports: [
@@ -49,7 +62,7 @@ const ANGULAR_MATERIAL = [
     RegionFilterComponent,
     LanguageFilterComponent,
     MovieFilterComponent,
-    TrendingChartComponent
+    MATERIAL_MODULE,
   ]
 })
 export class UserMaterialModule { }

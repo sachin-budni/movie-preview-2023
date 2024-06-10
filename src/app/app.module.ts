@@ -8,7 +8,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MovieService } from './service/movie.service';
 import { MovieApiInterceptor } from './service/api.interceptor';
 import { ThemeService } from './theme/theme.service';
-import { LayoutModule } from './layout/layout.module';
 
 @NgModule({
   declarations: [
@@ -19,7 +18,6 @@ import { LayoutModule } from './layout/layout.module';
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    LayoutModule
   ],
   providers: [
     MovieService,

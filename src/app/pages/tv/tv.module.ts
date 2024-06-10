@@ -44,7 +44,7 @@ const MATERIAL_MODULE = [
     CommonModule,
     TvRoutingModule,
     MATERIAL_MODULE,
-    UserMaterialModule
+    // UserMaterialModule
   ]
 })
 export class TvModule { }

@@ -16,7 +16,6 @@ export class MovieFilterComponent implements OnInit {
   constructor(private movie: MovieService,
               private fb: FormBuilder,
               private router: Router) {
-                console.log(this.searchForm)
               }
 
   ngOnInit(): void {

@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EChartsOption } from 'echarts';
 import * as echarts from 'echarts';
 import { MovieService } from 'src/app/service/movie.service';
@@ -26,14 +27,23 @@ export class TrendingChartComponent implements OnInit {
         type: 'shadow'
       },
       formatter: ((val: any) => {
-        console.log(val);
-        const { poster_path, title, name, vote_count, popularity } = val[0].data;
+        const { poster_path, profile_path, original_name, original_title, known_for,vote_count, popularity } = val[0].data;
+        let voteOrMovie = "";
+        if (profile_path) {
+          voteOrMovie = `<div style="margin: 2px 0px; display: inline-flex">
+                          Movies:<ul style="margin-left: 20px"> ${known_for.map((v: any) =>
+                            (`<li>${v.original_title}</li>`))
+                            .join("")}</ul>
+                        </div>`
+        } else {
+          voteOrMovie = `<p style="margin: 2px 0px;">Votes: ${vote_count}</p>`
+        }
         return `
                 <div style="display: flex; ">
-                  <img style="${img}" src="https://image.tmdb.org/t/p/w500/${poster_path}" alt="${title ?? name}"/>
+                  <img style="${img}" src="https://image.tmdb.org/t/p/w500/${poster_path ?? profile_path}" alt="${original_name ?? original_title}"/>
                   <div style="padding-left: 10px;">
-                    <h4 style="margin: 0px 0px 2px;">${title ?? name}</h4>
-                    <p style="margin: 2px 0px;">Votes: ${vote_count}</p>
+                    <h4 style="margin: 0px 0px 2px;">${original_name ?? original_title}</h4>
+                    ${voteOrMovie}
                     <p style="margin: 2px 0px 0px;">Popularity: ${popularity}</p>
                   </div>
                 </div>
@@ -41,7 +51,7 @@ export class TrendingChartComponent implements OnInit {
       })
     },
     grid: {
-      left: '3%',
+      left: '5%',
       right: '4%',
       bottom: '3%',
       containLabel: true
@@ -69,7 +79,8 @@ export class TrendingChartComponent implements OnInit {
         nameTextStyle: {
           color: '#eabcbc',
           fontSize: 18,
-          verticalAlign: 'top'
+          verticalAlign: 'top',
+          padding: -20
         },
         nameLocation: 'middle',
         nameGap: 40,
@@ -90,16 +101,27 @@ export class TrendingChartComponent implements OnInit {
     ]
   };
 
-  constructor(private movieService: MovieService) { }
+  constructor(private movieService: MovieService,
+              private route: ActivatedRoute,
+              private router: Router
+  ) { }
   ngOnInit(): void {
+    const url = this.router.url;
+    const path = url.substring(url.indexOf('/'), url.indexOf('/', 1));
+    const type = path.substring(1);
     if (this.rating.length === 0) {
-      this.movieService.getTrendingCharts('all').subscribe((data: any) => {
-        data.results.filter((d: any) => this.rating.push({ value: d.vote_average, ...d }));
+      this.movieService.getTrendingCharts(type === 'people' ? 'person' : type).subscribe((data: any) => {
+        data.results.filter((d: any) => this.rating.push({ value: d.vote_average ?? d.popularity, ...d }));
         data.results.filter((d: any) => this.movieTitles.push(d.title ? d.title : d.name));
         this.all = data.results;
         this.error = '';
         const echart = echarts.init(this.main.nativeElement);
         echart.setOption(this.chartOption);
+        echart.on('click', (params: any) => {
+          if (params.data.id) {
+            this.router.navigate([`${path}/popular`, params.data.id])
+          }
+        })
       }, (err: any) => this.error = err);
     }
   }

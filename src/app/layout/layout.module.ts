@@ -28,24 +28,6 @@ const routes: Routes = [
     { path: '', loadChildren: () => import('./../pages/movie/movie.module').then(m=> m.MovieModule) },
   ] }
 ];
-const materialModules = [
-  MatSidenavModule,
-  MatToolbarModule,
-  MatIconModule,
-  MatListModule,
-  MatCardModule,
-  MatButtonModule,
-  MatAutocompleteModule,
-  MatFormFieldModule,
-  MatInputModule,
-  MatSlideToggleModule,
-  MatTooltipModule,
-  MatExpansionModule,
-  MatPaginatorModule,
-  MatCardModule,
-  MatChipsModule,
-  UserMaterialModule
-];
 
 @NgModule({
   declarations: [
@@ -53,10 +35,10 @@ const materialModules = [
   ],
   imports: [
     CommonModule,
-    materialModules,
     HttpClientModule,
     RouterModule.forChild(routes),
-    ThemeModule
+    ThemeModule,
+    UserMaterialModule
   ],
   exports: [
     LayoutComponent

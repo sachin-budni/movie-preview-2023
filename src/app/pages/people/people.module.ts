@@ -21,22 +21,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { UserMaterialModule } from 'src/app/components/user-material.module';
 
-const MATERIAL_MODULE = [
-  MatSidenavModule,
-  MatToolbarModule,
-  MatIconModule,
-  MatListModule,
-  MatCardModule,
-  MatButtonModule,
-  MatAutocompleteModule,
-  MatFormFieldModule,
-  MatInputModule,
-  MatSlideToggleModule,
-  MatTooltipModule,
-  MatExpansionModule,
-  MatProgressSpinnerModule,
-  MatDialogModule
-];
 
 @NgModule({
   declarations: [
@@ -48,7 +32,6 @@ const MATERIAL_MODULE = [
   imports: [
     CommonModule,
     PeopleRoutingModule,
-    MATERIAL_MODULE,
     UserMaterialModule
   ]
 })

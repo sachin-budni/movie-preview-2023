@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PeopleListComponent } from './people-list/people-list.component';
 import { LatestComponent } from './latest/latest.component';
 import { DetailsComponent } from './details/details.component';
-import { TrendingChartComponent } from './trending-chart/trending-chart.component';
+import { TrendingChartComponent } from 'src/app/components/trending-chart/trending-chart.component';
 
 // const routes: Routes = [
 //   { path: 'people', component: PeopleListComponent }
