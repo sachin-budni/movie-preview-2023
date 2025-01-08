@@ -27,17 +27,9 @@ export class TrendingChartComponent implements OnInit {
         type: 'shadow'
       },
       formatter: ((val: any) => {
-        const { poster_path, profile_path, original_name, original_title, known_for,vote_count, popularity } = val[0].data;
-        let voteOrMovie = "";
-        if (profile_path) {
-          voteOrMovie = `<div style="margin: 2px 0px; display: inline-flex">
-                          Movies:<ul style="margin-left: 20px"> ${known_for.map((v: any) =>
-                            (`<li>${v.original_title}</li>`))
-                            .join("")}</ul>
-                        </div>`
-        } else {
-          voteOrMovie = `<p style="margin: 2px 0px;">Votes: ${vote_count}</p>`
-        }
+        const { poster_path, profile_path, original_name, original_title, known_for_department,vote_count, popularity } = val[0].data;
+        let voteOrMovie = !profile_path ? `<p style="margin: 2px 0px;">Votes: ${vote_count}</p>`
+                                      : `<p style="margin: 2px 0px;">Profession: ${known_for_department}</p>`;
         return `
                 <div style="display: flex; ">
                   <img style="${img}" src="https://image.tmdb.org/t/p/w500/${poster_path ?? profile_path}" alt="${original_name ?? original_title}"/>

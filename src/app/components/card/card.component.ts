@@ -7,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class CardComponent implements OnInit {
   @Input() credits: any = undefined;
+  @Input() link: any = undefined;
   ngOnInit(): void {
-    // console.log(this.credits)
   }
 }

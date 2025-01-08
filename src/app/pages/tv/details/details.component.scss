@@ -99,3 +99,13 @@
 .main-head {
     margin-bottom: 40px;
 }
+.director-name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.director-div {
+  text-align: center;
+  width: 100px;
+  padding: 0px 6px;
+}

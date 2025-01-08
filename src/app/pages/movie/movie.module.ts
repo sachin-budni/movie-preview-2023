@@ -50,7 +50,7 @@ const MATERIAL_MODULE = [
     CommonModule,
     MovieRoutingModule,
     MATERIAL_MODULE,
-    // UserMaterialModule
+    UserMaterialModule
   ],
   providers: []
 })

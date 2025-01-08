@@ -22,18 +22,9 @@
         <div class="p-tb-1"></div>
       </div>
     </div>
-    <!-- <mat-list *ngIf="$credits | async as credits">
-      <ng-container *ngFor="let cast of credits.cast">
-        <mat-list-item>
-          <img [src]="'https://image.tmdb.org/t/p/w500'+(cast.poster_path || cast.poster_path)" alt="">
-          {{(cast.release_date || cast.first_air_date) | date:'yyyy'}} {{cast.original_name || cast.title || cast.name}} | {{cast.media_type}}
-        </mat-list-item>
-        <mat-divider></mat-divider>
-      </ng-container>
-    </mat-list> -->
     <div *ngIf="$credits | async as credits" class="cast-list">
       <ng-container *ngFor="let cast of credits.cast">
-        <app-card [credits]="cast"></app-card>
+        <app-card [link]="'/'+cast.media_type+'/popular'" [credits]="cast"></app-card>
       </ng-container>
     </div>
   </div>

@@ -24,9 +24,9 @@
             <div class="p-tb-1"></div>
             <h4 class="title-header" *ngIf="tv.created_by.length !== 0">Created By:</h4>
             <div class="row">
-                <div *ngFor="let director of tv.created_by" style="text-align: center;">
+                <div *ngFor="let director of tv.created_by" class="director-div">
                     <img class="profile-pic" [src]="director.profile_path ? 'https://image.tmdb.org/t/p/w500'+director.profile_path : 'assets/account_dp.svg'" alt="">
-                    <p class="overview">{{director.name}}</p>
+                    <p class="overview director-name">{{director.name}}</p>
                 </div>
             </div>
             <div class="p-tb-1"></div>

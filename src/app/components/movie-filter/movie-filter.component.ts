@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, map, of } from 'rxjs';
@@ -13,6 +13,7 @@ export class MovieFilterComponent implements OnInit {
   filteredOptions: Observable<any> = of();
   searchForm: FormGroup = this.fb.group({ movie: [] });
   activetedRouterName: string = "";
+  @ViewChild('filter') filterInput: any;
   constructor(private movie: MovieService,
               private fb: FormBuilder,
               private router: Router) {
@@ -31,14 +32,16 @@ export class MovieFilterComponent implements OnInit {
   }
 
   ActivetedRouter(event: any): void {
-    this.searchForm.controls['movie'].setValue('');
+    // this.searchForm.controls['movie'].setValue('');
     this.activetedRouterName = event;
   }
 
-  onSubmitMovieSearch(movie: any): void {
+  onSubmitMovieSearch(movie: any, event?: any): void {
     const route = this.currentRoute;
-    if (movie && typeof movie !== 'string') {
+    if (movie && movie.movie && typeof movie !== 'string') {
       this.router.navigate(['/'+route+'/popular', movie.movie.id ]);
+      this.searchForm.controls['movie'].reset();
+      event && event.stopPropagation();
     }
   }
 

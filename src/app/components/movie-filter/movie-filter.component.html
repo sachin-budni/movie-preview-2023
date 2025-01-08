@@ -1,8 +1,8 @@
-<form [formGroup]="searchForm" (ngSubmit)="onSubmitMovieSearch(searchForm.value)" class="example-form">
+<form [formGroup]="searchForm" (ngSubmit)="onSubmitMovieSearch(searchForm.value, $event)" class="example-form">
   <mat-form-field class="example-full-width" appearance="outline">
     <mat-label class="lable">Search {{currentRoute}}</mat-label>
-    <input class="input-lang" matInput [matAutocomplete]="autoMovie" formControlName="movie">
-    <button mat-icon-button matSuffix (click)="onSubmitMovieSearch(searchForm.value)">
+    <input class="input-lang" matInput [matAutocomplete]="autoMovie" formControlName="movie" #filter>
+    <button mat-icon-button matSuffix (click)="onSubmitMovieSearch(searchForm.value, $event)">
       <mat-icon>search</mat-icon>
     </button>
     <mat-autocomplete #autoMovie="matAutocomplete" class="auto-complete" autoActiveFirstOption
