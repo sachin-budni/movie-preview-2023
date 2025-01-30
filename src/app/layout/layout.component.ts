@@ -6,6 +6,8 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Observable, of } from 'rxjs';
 import { MovieService } from '../service/movie.service';
 import { ThemeService } from '../theme/theme.service';
+import { DomSanitizer } from '@angular/platform-browser';
+import { MatIconRegistry } from '@angular/material/icon';
 
 @Component({
   selector: 'app-layout',
@@ -70,20 +72,20 @@ export class LayoutComponent implements OnInit {
   regions: any[] = [];
   regionForm: FormGroup = this.fb.group({});
 
-
-  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
+  constructor(private matIconRegistry: MatIconRegistry,
+              private domSanitizer: DomSanitizer,
+              changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
               private movie: MovieService, private fb: FormBuilder,
               private themeService: ThemeService,
               @Inject(PLATFORM_ID) private platformId: string) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-
-    // const svgUrl = 'assets/Icons/loader-default.svg';
-    // domain and port for SSR in this example is static. Use i.e. environment files to use appropriate dev/prod domain:port
     const domain = (isPlatformServer(platformId)) ? this.URL : '';
-
-    // tslint:disable-next-line: deprecation
     this.mobileQuery.addListener(this._mobileQueryListener);
+    this.matIconRegistry.addSvgIcon('left_arrow', this.domSanitizer.bypassSecurityTrustResourceUrl(domain + 'assets/left_arrow.svg'));
+    this.matIconRegistry.addSvgIcon('right_arrow', this.domSanitizer.bypassSecurityTrustResourceUrl(domain + 'assets/right_arrow.svg'));
+    this.matIconRegistry.addSvgIcon('menu', this.domSanitizer.bypassSecurityTrustResourceUrl(domain + 'assets/menu.svg'));
+    this.matIconRegistry.addSvgIcon('no_data', this.domSanitizer.bypassSecurityTrustResourceUrl(domain + 'assets/no_data.svg'));
   }
   ngOnInit(): void {
     this.regionForm = this.fb.group({
