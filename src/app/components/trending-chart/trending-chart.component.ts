@@ -27,19 +27,18 @@ export class TrendingChartComponent implements OnInit {
         type: 'shadow'
       },
       formatter: ((val: any) => {
-        const { poster_path, profile_path, original_name, original_title, known_for_department,vote_count, popularity } = val[0].data;
+        const { poster_path, profile_path, title, name, known_for_department, vote_count, popularity } = val[0].data;
         let voteOrMovie = !profile_path ? `<p style="margin: 2px 0px;">Votes: ${vote_count}</p>`
-                                      : `<p style="margin: 2px 0px;">Profession: ${known_for_department}</p>`;
+          : `<p style="margin: 2px 0px;">Profession: ${known_for_department}</p>`;
         return `
-                <div style="display: flex; ">
-                  <img style="${img}" src="https://image.tmdb.org/t/p/w500/${poster_path ?? profile_path}" alt="${original_name ?? original_title}"/>
-                  <div style="padding-left: 10px;">
-                    <h4 style="margin: 0px 0px 2px;">${original_name ?? original_title}</h4>
-                    ${voteOrMovie}
-                    <p style="margin: 2px 0px 0px;">Popularity: ${popularity}</p>
-                  </div>
-                </div>
-              `
+          <div style="display: flex; ">
+            <img style="${img}" src="https://image.tmdb.org/t/p/w500/${poster_path ?? profile_path}" alt="${name ?? title}"/>
+            <div style="padding-left: 10px;">
+              <h4 style="margin: 0px 0px 2px;">${name ?? title}</h4>
+              ${voteOrMovie}
+              <p style="margin: 2px 0px 0px;">Popularity: ${popularity}</p>
+            </div>
+          </div>`
       })
     },
     grid: {
@@ -94,13 +93,15 @@ export class TrendingChartComponent implements OnInit {
   };
 
   constructor(private movieService: MovieService,
-              private route: ActivatedRoute,
-              private router: Router
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
   ngOnInit(): void {
     const url = this.router.url;
     const path = url.substring(url.indexOf('/'), url.indexOf('/', 1));
     const type = path.substring(1);
+    const name = ((this.route.data as any).getValue()?.name) as any;
+    this.movieService.setTitle(name);
     if (this.rating.length === 0) {
       this.movieService.getTrendingCharts(type === 'people' ? 'person' : type).subscribe((data: any) => {
         data.results.filter((d: any) => this.rating.push({ value: d.vote_average ?? d.popularity, ...d }));
