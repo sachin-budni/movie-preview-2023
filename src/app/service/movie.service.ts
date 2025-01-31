@@ -92,4 +92,8 @@ export class MovieService {
   get regions(): Observable<any> {
     return this.http.get("/watch/providers/regions?language=en-US&api_key=")
   }
+
+  translations(movieId: number): Observable<any> {
+    return this.http.get(`/movie/${movieId}/translations?api_key=`);
+  }
 }

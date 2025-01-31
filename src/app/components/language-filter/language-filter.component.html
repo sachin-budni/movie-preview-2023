@@ -8,9 +8,11 @@
         formControlName="language" [matAutocomplete]="movieLanguage">
       <mat-autocomplete autoActiveFirstOption #movieLanguage="matAutocomplete" [displayWith]="displayLanguageFn"
         class="auto-complete">
-        <mat-option *ngFor="let lang of langauges" [value]="lang" class="options">
-          <span>{{lang.english_name}}</span>
-        </mat-option>
+        @for(lang of langauges; track lang.id) {
+          <mat-option [value]="lang" class="options">
+            <span>{{lang.english_name}}</span>
+          </mat-option>
+        }
       </mat-autocomplete>
     </mat-form-field>
     <div class="row justify-content-flex-end">

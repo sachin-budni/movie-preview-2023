@@ -20,7 +20,8 @@ export class MovieListComponent implements OnInit {
     this.routeName = ((this.route.data as any).getValue().title) as any;
     const name = ((this.route.data as any).getValue().name) as any;
     this.movieService.setTitle(name);
-    this.queryparamSubscription = this.route.queryParams.subscribe((params: any) => {
+    this.queryparamSubscription = this.route.queryParams
+    .subscribe((params: any) => {
       if (params.page || params.language) {
         this.pageChange(params);
       } else {

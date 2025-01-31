@@ -17,6 +17,7 @@ export class MovieDetailsComponent implements OnInit {
   $video: Observable<any> = of();
   $similarMovies: Observable<any> = of();
   $movieReview: Observable<any> = of();
+  $translations: Observable<any> = of();
   $cast: Observable<any> = of();
   routeName: any = 'popular';
   type: any = 'movie';
@@ -33,6 +34,8 @@ export class MovieDetailsComponent implements OnInit {
       this.$movieDetails = this.movie.getDetails(this.id, this.type);
       this.$similarMovies = this.movie.similar(this.id, 1, this.type);
       this.$movieReview = this.movie.moviesReviews(this.id, 1);
+      // this.$translations = this.movie.translations(this.id);
+      this.$translations.subscribe(console.log)
       const path = window.location.pathname;
       const f1 = path.indexOf('/', 1);
       const f2 = path.substr(f1).lastIndexOf('/');
