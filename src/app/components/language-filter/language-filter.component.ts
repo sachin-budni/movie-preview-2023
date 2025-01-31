@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { map } from 'rxjs';
+import { map, Subscription } from 'rxjs';
 import { MovieService } from 'src/app/service/movie.service';
 
 @Component({
@@ -13,6 +13,7 @@ import { MovieService } from 'src/app/service/movie.service';
 export class LanguageFilterComponent implements OnInit {
   languageForm: FormGroup = this.fb.group({ language: [] });
   langauges: any[] = [];
+  getLanguagesSubscription: Subscription | undefined;
   constructor(private router: Router,
               private fb: FormBuilder,
               private movie: MovieService
@@ -25,7 +26,7 @@ export class LanguageFilterComponent implements OnInit {
         .filter((l: any) => l.english_name.toLocaleUpperCase().indexOf(lang.toLocaleUpperCase()) !== -1);
       }
     });
-    this.movie.getLanguages
+    this.getLanguagesSubscription = this.movie.getLanguages
     .pipe(map((lang: any[]) => {
       const lists = lang.map((d: any) => {
         const emp: any = new Object();
@@ -51,5 +52,9 @@ export class LanguageFilterComponent implements OnInit {
     const realpath = current.split('/').length === 3 ? current : window.location.pathname;
     const pathname = realpath.indexOf('people') === -1 ? realpath : '/movie/popular'
     this.router.navigate([pathname], { queryParams: { page: 1, language: value.language.iso_639_1  } });
+  }
+
+  ngOnDestroy() {
+    this.getLanguagesSubscription?.unsubscribe();
   }
 }

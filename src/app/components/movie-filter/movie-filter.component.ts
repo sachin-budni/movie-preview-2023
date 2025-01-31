@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable, map, of } from 'rxjs';
+import { Observable, Subscription, map, of } from 'rxjs';
 import { MovieService } from 'src/app/service/movie.service';
 
 @Component({
@@ -13,6 +13,7 @@ export class MovieFilterComponent implements OnInit {
   filteredOptions: Observable<any> = of();
   searchForm: FormGroup = this.fb.group({ movie: [] });
   activetedRouterName: string = "";
+  constrollerSubscription: Subscription | undefined;
   @ViewChild('filter') filterInput: any;
   constructor(private movie: MovieService,
               private fb: FormBuilder,
@@ -20,7 +21,7 @@ export class MovieFilterComponent implements OnInit {
               }
 
   ngOnInit(): void {
-    this.searchForm.controls['movie'].valueChanges.subscribe((movie: string) => {
+    this.constrollerSubscription = this.searchForm.controls['movie'].valueChanges.subscribe((movie: string) => {
       if (movie && movie.length !== 0) {
         const name = window.location.pathname.split('/')[1];
         const routeName = name === 'people' ? 'person' : name;
@@ -62,6 +63,10 @@ export class MovieFilterComponent implements OnInit {
       return name || (originalTitle + ' | ' + title);
     }
     return name || title;
+  }
+
+  ngOnDestroy() {
+    this.constrollerSubscription?.unsubscribe();
   }
 
 }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { VideoComponent } from 'src/app/components/video/video.component';
 import { MovieService } from 'src/app/service/movie.service';
 
@@ -19,13 +19,14 @@ export class DetailsComponent implements OnInit {
   routeName: any = 'popular';
   id: any = '';
   type: any = 'tv';
+  paramSubscription: Subscription | undefined;
   constructor(private route: ActivatedRoute,
               private movie: MovieService,
               private domSanitizer: DomSanitizer,
               private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe((s: any) => {
+    this.paramSubscription = this.route.params.subscribe((s: any) => {
       this.id = s.id;
       this.$tvDetails = this.movie.getDetails(this.id, this.type);
       this.$similarTV = this.movie.similar(this.id, 1, this.type);
@@ -52,5 +53,7 @@ export class DetailsComponent implements OnInit {
       panelClass: 'video-dailog'
     });
   }
-
+  ngOnDestroy() {
+    this.paramSubscription?.unsubscribe();
+  }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute} from '@angular/router';
 import { MovieService } from '../../../service/movie.service';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { VideoComponent } from 'src/app/components/video/video.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -21,13 +21,14 @@ export class MovieDetailsComponent implements OnInit {
   routeName: any = 'popular';
   type: any = 'movie';
   id: any = '';
+  routerSubscription: Subscription | undefined;
   constructor(private route: ActivatedRoute,
     private movie: MovieService,
     private domSanitizer: DomSanitizer,
     private dialog: MatDialog) { }
 
   ngOnInit(): any {
-    this.route.params.subscribe((s: any) => {
+    this.routerSubscription = this.route.params.subscribe((s: any) => {
       this.id = s.id;
       this.$movieDetails = this.movie.getDetails(this.id, this.type);
       this.$similarMovies = this.movie.similar(this.id, 1, this.type);
@@ -56,5 +57,9 @@ export class MovieDetailsComponent implements OnInit {
       data: {video},
       panelClass: 'video-dailog'
     });
+  }
+
+  ngOnDestroy() {
+    this.routerSubscription?.unsubscribe();
   }
 }

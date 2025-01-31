@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EChartsOption } from 'echarts';
 import * as echarts from 'echarts';
+import { Subscription } from 'rxjs';
 import { MovieService } from 'src/app/service/movie.service';
 
 const img = `width: 60px;height: 60px;border-radius: 50%;object-fit: cover;`
@@ -18,6 +19,7 @@ export class TrendingChartComponent implements OnInit {
   all: any[] = [];
   error: any = 'Loading...';
   @ViewChild('main', { static: true }) main!: ElementRef;
+  getTrendingChartsSubscription: Subscription | undefined;
 
   chartOption: EChartsOption = {
     color: ['#4fffc3'],
@@ -103,7 +105,7 @@ export class TrendingChartComponent implements OnInit {
     const name = ((this.route.data as any).getValue()?.name) as any;
     this.movieService.setTitle(name);
     if (this.rating.length === 0) {
-      this.movieService.getTrendingCharts(type === 'people' ? 'person' : type).subscribe((data: any) => {
+      this.getTrendingChartsSubscription = this.movieService.getTrendingCharts(type === 'people' ? 'person' : type).subscribe((data: any) => {
         data.results.filter((d: any) => this.rating.push({ value: d.vote_average ?? d.popularity, ...d }));
         data.results.filter((d: any) => this.movieTitles.push(d.title ? d.title : d.name));
         this.all = data.results;
@@ -117,5 +119,10 @@ export class TrendingChartComponent implements OnInit {
         })
       }, (err: any) => this.error = err);
     }
+  }
+
+  ngOnDestroy() {
+    console.log("trednin")
+    this.getTrendingChartsSubscription?.unsubscribe();
   }
 }

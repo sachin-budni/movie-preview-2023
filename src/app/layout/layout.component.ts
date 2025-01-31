@@ -3,7 +3,7 @@ import { isPlatformServer } from '@angular/common';
 import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { MovieService } from '../service/movie.service';
 import { ThemeService } from '../theme/theme.service';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -71,6 +71,7 @@ export class LayoutComponent implements OnInit {
   activeThem = 'dark';
   regions: any[] = [];
   regionForm: FormGroup = this.fb.group({});
+  regionSubscription: Subscription | undefined;
 
   constructor(private matIconRegistry: MatIconRegistry,
               private domSanitizer: DomSanitizer,
@@ -92,7 +93,7 @@ export class LayoutComponent implements OnInit {
       region: []
     });
 
-    this.movie.regions
+    this.regionSubscription = this.movie.regions
     .subscribe((list: any)=> {
       this.regions = list.results;
     })
@@ -107,6 +108,7 @@ export class LayoutComponent implements OnInit {
   ngOnDestroy(): void {
     // tslint:disable-next-line: deprecation
     this.mobileQuery.removeListener(this._mobileQueryListener);
+    this.regionSubscription?.unsubscribe();
   }
 
   getLang(lng: any): any {
