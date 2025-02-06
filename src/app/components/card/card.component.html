@@ -1,4 +1,4 @@
-<ng-container *ngIf="credits">
+@if (credits) {
   <a [routerLink]="[link, credits.id]">
     <div class="card-div">
         <div class="poster">
@@ -17,4 +17,4 @@
         </div>
     </div>
   </a>
-</ng-container>
+}

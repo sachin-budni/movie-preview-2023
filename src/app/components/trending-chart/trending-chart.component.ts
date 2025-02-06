@@ -105,15 +105,19 @@ export class TrendingChartComponent implements OnInit {
     const name = ((this.route.data as any).getValue()?.name) as any;
     this.movieService.setTitle(name);
     if (this.rating.length === 0) {
-      this.getTrendingChartsSubscription = this.movieService.getTrendingCharts(type === 'people' ? 'person' : type).subscribe((data: any) => {
-        data.results.filter((d: any) => this.rating.push({ value: d.vote_average ?? d.popularity, ...d }));
-        data.results.filter((d: any) => this.movieTitles.push(d.title ? d.title : d.name));
+      this.getTrendingChartsSubscription = this.movieService.getTrendingCharts(type === 'people' ? 'person' : type)
+      .subscribe((data: any) => {
+        let set = new Set();
+        this.rating.push(...data.results.map((d: any) => ({ value: d.vote_average ?? d.popularity, ...d })));
+        this.movieTitles.push(...data.results.map((d: any) => (d.title ? d.title : d.name)));
         this.all = data.results;
         this.error = '';
         const echart = echarts.init(this.main.nativeElement);
         echart.setOption(this.chartOption);
         echart.on('click', (params: any) => {
-          if (params.data.id) {
+          const { media_type } = params.data;
+          if (params.data.id && media_type) {
+            const path = media_type === 'person' ? 'people' : media_type;
             this.router.navigate([`${path}/popular`, params.data.id])
           }
         })
@@ -122,7 +126,6 @@ export class TrendingChartComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    console.log("trednin")
     this.getTrendingChartsSubscription?.unsubscribe();
   }
 }

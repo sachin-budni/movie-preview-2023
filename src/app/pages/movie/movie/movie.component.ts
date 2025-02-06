@@ -24,10 +24,7 @@ export class MovieComponent implements OnInit {
   pageChange(d: number): any {
     const params: any = this.route.snapshot.queryParams;
     if (params.language) {
-      this.pages.emit({
-        language: params.language,
-        page: d
-      });
+      this.pages.emit({ language: params.language, page: d });
     } else {
       this.pages.emit(d);
     }
