@@ -20,6 +20,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { UserMaterialModule } from 'src/app/components/user-material.module';
+import { CardComponent } from 'src/app/components/card/card.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { UserMaterialModule } from 'src/app/components/user-material.module';
   imports: [
     CommonModule,
     PeopleRoutingModule,
-    UserMaterialModule
+    UserMaterialModule,
+    CardComponent
   ]
 })
 export class PeopleModule { }

@@ -1,23 +1,29 @@
-import { NgModule } from '@angular/core';
+import { InjectionToken, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LayoutComponent } from './layout.component';
 import { UserMaterialModule } from '../components/user-material.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { ThemeModule } from '../theme/theme.module';
 import { RouterModule, Routes } from '@angular/router';
-import { TrendingChartComponent } from '../components/trending-chart/trending-chart.component';
 import { MovieService } from '../service/movie.service';
 import { MovieApiInterceptor } from '../service/api.interceptor';
-import { ThemeService } from '../theme/theme.service';
+import { LanguageFilterComponent } from '../components/language-filter/language-filter.component';
+import { MovieFilterComponent } from '../components/movie-filter/movie-filter.component';
+import { ThemeDirective } from '../theme/theme.directive';
+import { BehaviorSubject, Observable } from 'rxjs';
 const routes: Routes = [
   { path: '', component: LayoutComponent, children: [
-    { path: 'all/trendingchart', component: TrendingChartComponent, data: { title: 'trendingchart', name: 'Trending Chart' } },
+    { path: 'all/trendingchart', loadComponent: () => import('./../components/trending-chart/trending-chart.component')
+      .then(c => c.TrendingChartComponent) , data: { title: 'trendingchart', name: 'Trending Chart' } },
     { path: 'tv', loadChildren: () => import('./../pages/tv/tv.module').then(m=> m.TvModule) },
     { path: 'people', loadChildren: () => import('./../pages/people/people.module').then(m=> m.PeopleModule) },
     { path: '', loadChildren: () => import('./../pages/movie/movie.module').then(m=> m.MovieModule) },
   ] }
 ];
-
+export interface ThemeConfig {
+  getActiveTheme: () => Observable<any>;
+  setActiveThem: (name: any) => void
+}
+export const THEME_SERVICE = new InjectionToken<ThemeConfig>('sample');
 @NgModule({
   declarations: [
     LayoutComponent
@@ -26,8 +32,10 @@ const routes: Routes = [
     CommonModule,
     HttpClientModule,
     RouterModule.forChild(routes),
-    ThemeModule,
-    UserMaterialModule
+    UserMaterialModule,
+    LanguageFilterComponent,
+    MovieFilterComponent,
+    ThemeDirective
   ],
   providers: [
     MovieService,
@@ -36,10 +44,23 @@ const routes: Routes = [
       useClass: MovieApiInterceptor,
       multi: true
     },
-    ThemeService
+    {
+      provide: THEME_SERVICE,
+      useFactory: themeService,
+      deps: []
+    }
   ],
   exports: [
     LayoutComponent
   ]
 })
 export class LayoutModule { }
+
+
+function themeService() {
+  let activeThem = new BehaviorSubject('dark');
+  let getActiveTheme = () : Observable<string> => activeThem.asObservable();
+  let setActiveThem = (name: any): void => activeThem.next(name);
+  return { getActiveTheme, setActiveThem };
+}
+

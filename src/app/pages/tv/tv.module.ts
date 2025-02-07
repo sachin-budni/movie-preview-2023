@@ -6,6 +6,7 @@ import { TvComponent } from './tv/tv.component';
 import { DetailsComponent } from './details/details.component';
 import { LatestComponent } from './latest/latest.component';
 import { UserMaterialModule } from 'src/app/components/user-material.module';
+import { CardComponent } from 'src/app/components/card/card.component';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { UserMaterialModule } from 'src/app/components/user-material.module';
   imports: [
     CommonModule,
     TvRoutingModule,
-    UserMaterialModule
+    UserMaterialModule,
+    CardComponent
   ]
 })
 export class TvModule { }

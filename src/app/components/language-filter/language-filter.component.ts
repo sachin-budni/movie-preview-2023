@@ -1,14 +1,18 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { map, Subscription } from 'rxjs';
 import { MovieService } from 'src/app/service/movie.service';
+import { UserMaterialModule } from '../user-material.module';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-language-filter',
   templateUrl: './language-filter.component.html',
   styleUrls: ['./language-filter.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [ReactiveFormsModule, UserMaterialModule, CommonModule]
 })
 export class LanguageFilterComponent implements OnInit {
   languageForm: FormGroup = this.fb.group({ language: [] });

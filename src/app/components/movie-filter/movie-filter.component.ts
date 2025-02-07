@@ -1,13 +1,17 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, Subscription, map, of } from 'rxjs';
 import { MovieService } from 'src/app/service/movie.service';
+import { UserMaterialModule } from '../user-material.module';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-movie-filter',
   templateUrl: './movie-filter.component.html',
-  styleUrls: ['./movie-filter.component.scss']
+  styleUrls: ['./movie-filter.component.scss'],
+  standalone: true,
+  imports: [ReactiveFormsModule, UserMaterialModule, CommonModule]
 })
 export class MovieFilterComponent implements OnInit {
   filteredOptions: Observable<any> = of();
