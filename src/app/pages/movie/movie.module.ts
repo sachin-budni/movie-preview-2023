@@ -7,21 +7,21 @@ import { MovieComponent } from './movie/movie.component';
 import { LatestMoviesComponent } from './latest-movies/latest-movies.component';
 import { MovieLayoutComponent } from './movie-layout/movie-layout.component';
 import { UserMaterialModule } from 'src/app/components/user-material.module';
-import { TrendingChartComponent } from 'src/app/components/trending-chart/trending-chart.component';
+import { CardComponent } from 'src/app/components/card/card.component';
 
 @NgModule({
   declarations: [
     MovieListComponent,
     MovieDetailsComponent,
     MovieComponent,
-    TrendingChartComponent,
     LatestMoviesComponent,
     MovieLayoutComponent,
   ],
   imports: [
     CommonModule,
     MovieRoutingModule,
-    UserMaterialModule
+    UserMaterialModule,
+    CardComponent
   ],
   providers: []
 })

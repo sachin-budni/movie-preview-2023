@@ -10,7 +10,8 @@ const img = `width: 60px;height: 60px;border-radius: 50%;object-fit: cover;`
 @Component({
   selector: 'app-trending-chart',
   templateUrl: './trending-chart.component.html',
-  styleUrls: ['./trending-chart.component.scss']
+  styleUrls: ['./trending-chart.component.scss'],
+  standalone: true
 })
 export class TrendingChartComponent implements OnInit {
   routeName = 'trendingchart';
@@ -106,22 +107,22 @@ export class TrendingChartComponent implements OnInit {
     this.movieService.setTitle(name);
     if (this.rating.length === 0) {
       this.getTrendingChartsSubscription = this.movieService.getTrendingCharts(type === 'people' ? 'person' : type)
-      .subscribe((data: any) => {
-        let set = new Set();
-        this.rating.push(...data.results.map((d: any) => ({ value: d.vote_average ?? d.popularity, ...d })));
-        this.movieTitles.push(...data.results.map((d: any) => (d.title ? d.title : d.name)));
-        this.all = data.results;
-        this.error = '';
-        const echart = echarts.init(this.main.nativeElement);
-        echart.setOption(this.chartOption);
-        echart.on('click', (params: any) => {
-          const { media_type } = params.data;
-          if (params.data.id && media_type) {
-            const path = media_type === 'person' ? 'people' : media_type;
-            this.router.navigate([`${path}/popular`, params.data.id])
-          }
-        })
-      }, (err: any) => this.error = err);
+        .subscribe((data: any) => {
+          let set = new Set();
+          this.rating.push(...data.results.map((d: any) => ({ value: d.vote_average ?? d.popularity, ...d })));
+          this.movieTitles.push(...data.results.map((d: any) => (d.title ? d.title : d.name)));
+          this.all = data.results;
+          this.error = '';
+          const echart = echarts.init(this.main.nativeElement);
+          echart.setOption(this.chartOption);
+          echart.on('click', (params: any) => {
+            const { media_type } = params.data;
+            if (params.data.id && media_type) {
+              const path = media_type === 'person' ? 'people' : media_type;
+              this.router.navigate([`${path}/popular`, params.data.id])
+            }
+          })
+        }, (err: any) => this.error = err);
     }
   }
 

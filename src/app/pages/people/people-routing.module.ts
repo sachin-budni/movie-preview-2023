@@ -4,13 +4,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { PeopleListComponent } from './people-list/people-list.component';
 import { LatestComponent } from './latest/latest.component';
 import { DetailsComponent } from './details/details.component';
-import { TrendingChartComponent } from 'src/app/components/trending-chart/trending-chart.component';
 
 // const routes: Routes = [
 //   { path: 'people', component: PeopleListComponent }
 // ]
 const routes: Routes = [
-  { path: 'trendingchart', component: TrendingChartComponent, data: { title: 'trendingchart', name: 'Trending Chart of People' } },
+  { path: 'trendingchart', loadComponent: () => import('./../../components/trending-chart/trending-chart.component')
+    .then(c => c.TrendingChartComponent), data: { title: 'trendingchart', name: 'Trending Chart of People' } },
   { path: 'popular', component: PeopleListComponent, data: { title: 'popular', name: 'Popular Tv-show' } },
   { path: 'upcoming', component: PeopleListComponent, data: { title: 'upcoming', name: 'Upcoming Tv-show' } },
   { path: 'latest', component: LatestComponent, data: { title: 'latest', name: 'Latest Tv-show' } },

@@ -5,14 +5,15 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Observable, of, Subscription } from 'rxjs';
 import { MovieService } from '../service/movie.service';
-import { ThemeService } from '../theme/theme.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
+import { THEME_SERVICE, ThemeConfig } from './layout.module';
 
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.scss']
+  styleUrls: ['./layout.component.scss'],
+  providers: []
 })
 export class LayoutComponent implements OnInit {
   activetedRouterName: any;
@@ -77,7 +78,7 @@ export class LayoutComponent implements OnInit {
               private domSanitizer: DomSanitizer,
               changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
               private movie: MovieService, private fb: FormBuilder,
-              private themeService: ThemeService,
+              @Inject(THEME_SERVICE) private themeService: ThemeConfig,
               @Inject(PLATFORM_ID) private platformId: string) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
