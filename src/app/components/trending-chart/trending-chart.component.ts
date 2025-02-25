@@ -108,7 +108,6 @@ export class TrendingChartComponent implements OnInit {
     if (this.rating.length === 0) {
       this.getTrendingChartsSubscription = this.movieService.getTrendingCharts(type === 'people' ? 'person' : type)
         .subscribe((data: any) => {
-          let set = new Set();
           this.rating.push(...data.results.map((d: any) => ({ value: d.vote_average ?? d.popularity, ...d })));
           this.movieTitles.push(...data.results.map((d: any) => (d.title ? d.title : d.name)));
           this.all = data.results;

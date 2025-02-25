@@ -20,11 +20,9 @@ const routes: Routes = [
       { path: 'top-rated/:id', component: MovieDetailsComponent },
       { path: 'now-playing/:id', component: MovieDetailsComponent },
       { path: '', redirectTo: 'popular', pathMatch: 'full' },
-      { path: '**', redirectTo: 'popular', pathMatch: 'full' },
     ],
   },
-  { path: '', redirectTo: 'movie', pathMatch: 'full' },
-  { path: '**', redirectTo: 'movie', pathMatch: 'full' },
+  { path: '', redirectTo: 'movie', pathMatch: 'full' }
 ];
 
 @NgModule({
