@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Meta, Title } from '@angular/platform-browser';
+import { TYPES_OF_MOVIE } from '../models/movie-models';
+import { TYPES_OF_TV } from '../models/tv-models';
+import { Response_Data, TYPES_OF_ROUTES, UrlQueryParam } from '../models/common-models';
 
 @Injectable()
 export class MovieService {
@@ -13,9 +16,15 @@ export class MovieService {
   // }
 
   setMetaData(result: any) {
-    this.meta.updateTag({property: 'og:title', content: (result.title || result.name) as any})
-    this.meta.updateTag({property: 'og:description', content: (result.overview || result.biography) as any})
-    this.meta.updateTag({property: 'og:image', content: 'https://image.tmdb.org/t/p/w500'+(result.poster_path || result.profile_path)})
+    this.meta.updateTag({property: 'og:title', content: (result.title || result.name)}, 'url')
+    this.meta.updateTag({property: 'og:description', content: (result.overview || result.biography)}, 'url')
+    this.meta.updateTag(
+      {
+        property: 'og:image',
+        content: 'https://image.tmdb.org/t/p/w500'+(result.poster_path || result.profile_path)
+      },
+      'url'
+    )
   }
 
   get getLanguages(): Observable<any[]> {
@@ -30,14 +39,14 @@ export class MovieService {
     return this.http.get(`/movie/${id}/videos?api_key=`);
   }
 
-  getList(type: any, routerName: any, params: any): Observable<any> {
+  getList(type: TYPES_OF_ROUTES, routerName: TYPES_OF_MOVIE | TYPES_OF_TV, params: any): Observable<Response_Data> {
     let api = '';
     if (params.with_original_language) {
       api = `/${type}/${routerName}?api_key=&language=kn-IN&page=${params.page}&with_original_language=${params.with_original_language}`;
     } else {
       api = `/${type}/${routerName}?api_key=&language=kn-IN&page=${params.page}`;
     }
-    return this.http.get<any>(api);
+    return this.http.get<Response_Data>(api);
   }
 
   getTrendingCharts(type: string): any {
@@ -60,12 +69,12 @@ export class MovieService {
     return this.http.get(`/${type}/latest?api_key=&language=en-US`);
   }
 
-  searchMovieName(movie: any, type: string): Observable<any> {
+  searchMovieName(movie: string, type: string): Observable<any> {
     return this.http.get<any>(`/search/${type}?api_key=&language=en-US&query=${movie}&page=1&include_adult=false`);
   }
 
-  convertLanguageObj(obj: any): any {
-    const paramObj = {} as any;
+  convertLanguageObj(obj: UrlQueryParam): UrlQueryParam {
+    const paramObj: UrlQueryParam = {};
     if (obj.language) {
       paramObj.with_original_language = obj.language;
       paramObj.page = obj.page;
@@ -79,7 +88,7 @@ export class MovieService {
     return this.http.get('/movie/{585244}/similar');
   }
 
-  similar(id: any, page: any, type: any): Observable<any> {
+  similar(id: number, page: number, type: string): Observable<any> {
     return this.http.get<any>(`/${type}/${id}/similar?page=${page}&api_key=&language=en-US`);
   }
   moviesReviews(id: any, page: any): Observable<any> {

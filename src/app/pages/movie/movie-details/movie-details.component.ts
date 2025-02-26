@@ -20,8 +20,8 @@ export class MovieDetailsComponent implements OnInit {
   $translations: Observable<any> = of();
   $cast: Observable<any> = of();
   routeName: any = 'popular';
-  type: any = 'movie';
-  id: any = '';
+  type: string = 'movie';
+  id: number = 0;
   routerSubscription: Subscription | undefined;
   constructor(private route: ActivatedRoute,
     private movie: MovieService,
@@ -29,17 +29,18 @@ export class MovieDetailsComponent implements OnInit {
     private dialog: MatDialog) { }
 
   ngOnInit(): any {
-    this.routerSubscription = this.route.params.subscribe((s: any) => {
+    this.routerSubscription = this.route.params
+    .subscribe((s: any) => {
       this.id = s.id;
       this.$movieDetails = this.movie.getDetails(this.id, this.type);
       this.$similarMovies = this.movie.similar(this.id, 1, this.type);
       this.$movieReview = this.movie.moviesReviews(this.id, 1);
       // this.$translations = this.movie.translations(this.id);
-      this.$translations.subscribe(console.log)
+      // this.$translations.subscribe(console.log)
       const path = window.location.pathname;
       const f1 = path.indexOf('/', 1);
-      const f2 = path.substr(f1).lastIndexOf('/');
-      this.routeName = path.substr(f1 + 1, f2 - 1);
+      const f2 = path.substring(f1).lastIndexOf('/');
+      this.routeName = path.substring(f1 + 1, f2 - 1);
       this.$cast = this.movie.getMovieCast(this.id);
       this.setTitle();
     });
