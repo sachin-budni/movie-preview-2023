@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ElementRef, EventEmitter, Output } from '@angular/core';
-import { MovieService } from '../../../service/movie.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Observable, of } from 'rxjs';
+import { Response_Data, ROUTE_LIST, UrlQueryParam } from 'src/app/models/common-models';
 
 @Component({
   selector: 'app-movie',
@@ -10,11 +10,9 @@ import { Observable, of } from 'rxjs';
 })
 export class MovieComponent implements OnInit {
 
-  // tslint:disable-next-line: no-input-rename
-  @Input('Movies') $Movies: Observable<any> = of();
-  // tslint:disable-next-line: no-input-rename
-  @Input('MovieClassName') $nameOfRoute: Observable<any> = of();
-  @Output() pages = new EventEmitter<any>();
+  @Input('Movies') $Movies: Observable<Response_Data> = of();
+  @Input('MovieClassName') $nameOfRoute: ROUTE_LIST | null = null;
+  @Output() pages = new EventEmitter<UrlQueryParam | number>();
 
   constructor(private route: ActivatedRoute) { }
 
@@ -22,7 +20,7 @@ export class MovieComponent implements OnInit {
   }
 
   pageChange(d: number): any {
-    const params: any = this.route.snapshot.queryParams;
+    const params: UrlQueryParam = this.route.snapshot.queryParams;
     if (params.language) {
       this.pages.emit({ language: params.language, page: d });
     } else {

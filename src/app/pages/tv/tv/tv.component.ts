@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
+import { Response_Data, ROUTE_LIST } from 'src/app/models/common-models';
 
 @Component({
   selector: 'app-tv',
@@ -8,18 +9,15 @@ import { Observable, of } from 'rxjs';
   styleUrls: ['./tv.component.scss']
 })
 export class TvComponent implements OnInit {
-  // tslint:disable-next-line:no-input-rename
-  @Input('Movies') $Movies: Observable<any> = of({});
-  // tslint:disable-next-line:no-input-rename
-  @Input('MovieClassName') $nameOfRoute: Observable<any> = of();
+  @Input('Movies') $Movies: Observable<Response_Data> = of();
+  @Input('MovieClassName') $nameOfRoute: ROUTE_LIST | null = null;
   @Output() pages = new EventEmitter<any>();
 
   constructor(private route: ActivatedRoute, private router: Router) { }
 
-  ngOnInit(): any {
-  }
+  ngOnInit(): void {}
 
-  pageChange(d: number): any {
+  pageChange(d: number): void {
     const params: any = this.route.snapshot.queryParams;
     if (params.language) {
       this.pages.emit({

@@ -17,7 +17,10 @@ const routes: Routes = [
     { path: 'tv', loadChildren: () => import('./../pages/tv/tv.module').then(m=> m.TvModule) },
     { path: 'people', loadChildren: () => import('./../pages/people/people.module').then(m=> m.PeopleModule) },
     { path: '', loadChildren: () => import('./../pages/movie/movie.module').then(m=> m.MovieModule) },
-  ] }
+    { path: '**', loadComponent: () => import('./../components/page-not-found.component')
+      .then(c => c.PageNotFoundComponent)
+     }
+  ] },
 ];
 export interface ThemeConfig {
   getActiveTheme: () => Observable<any>;

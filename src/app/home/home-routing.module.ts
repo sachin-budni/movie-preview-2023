@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 
 const route: Routes = [
-  { path: "", component: HomeComponent }
+  { path: "home", component: HomeComponent }
 ]
 
 @NgModule({
@@ -14,7 +14,7 @@ const route: Routes = [
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(route)
+    RouterModule.forRoot(route)
   ],
   exports: [
     RouterModule
