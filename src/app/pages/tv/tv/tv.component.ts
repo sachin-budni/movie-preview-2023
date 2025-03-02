@@ -4,9 +4,10 @@ import { Observable, of } from 'rxjs';
 import { Response_Data, ROUTE_LIST } from 'src/app/models/common-models';
 
 @Component({
-  selector: 'app-tv',
-  templateUrl: './tv.component.html',
-  styleUrls: ['./tv.component.scss']
+    selector: 'app-tv',
+    templateUrl: './tv.component.html',
+    styleUrls: ['./tv.component.scss'],
+    standalone: false
 })
 export class TvComponent implements OnInit {
   @Input('Movies') $Movies: Observable<Response_Data> = of();

@@ -4,9 +4,10 @@ import { Observable, of, Subscription } from 'rxjs';
 import { MovieService } from 'src/app/service/movie.service';
 
 @Component({
-  selector: 'app-people-list',
-  templateUrl: './people-list.component.html',
-  styleUrls: ['./people-list.component.scss']
+    selector: 'app-people-list',
+    templateUrl: './people-list.component.html',
+    styleUrls: ['./people-list.component.scss'],
+    standalone: false
 })
 export class PeopleListComponent implements OnInit {
   routeName: any = 'popular';

@@ -4,9 +4,10 @@ import { Observable, of } from 'rxjs';
 import { Response_Data, ROUTE_LIST, UrlQueryParam } from 'src/app/models/common-models';
 
 @Component({
-  selector: 'app-movie',
-  templateUrl: './movie.component.html',
-  styleUrls: ['./movie.component.scss']
+    selector: 'app-movie',
+    templateUrl: './movie.component.html',
+    styleUrls: ['./movie.component.scss'],
+    standalone: false
 })
 export class MovieComponent implements OnInit {
 

@@ -6,9 +6,10 @@ import { Types_of_Movie } from 'src/app/models/movie-models';
 import { MovieService } from 'src/app/service/movie.service';
 
 @Component({
-  selector: 'app-movie-list',
-  templateUrl: './movie-list.component.html',
-  styleUrls: ['./movie-list.component.scss']
+    selector: 'app-movie-list',
+    templateUrl: './movie-list.component.html',
+    styleUrls: ['./movie-list.component.scss'],
+    standalone: false
 })
 export class MovieListComponent implements OnInit {
 

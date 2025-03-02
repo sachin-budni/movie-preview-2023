@@ -11,7 +11,6 @@ const img = `width: 60px;height: 60px;border-radius: 50%;object-fit: cover;`
   selector: 'app-trending-chart',
   templateUrl: './trending-chart.component.html',
   styleUrls: ['./trending-chart.component.scss'],
-  standalone: true
 })
 export class TrendingChartComponent implements OnInit {
   routeName = 'trendingchart';

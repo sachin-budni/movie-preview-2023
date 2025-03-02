@@ -7,11 +7,10 @@ import { UserMaterialModule } from '../user-material.module';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-movie-filter',
-  templateUrl: './movie-filter.component.html',
-  styleUrls: ['./movie-filter.component.scss'],
-  standalone: true,
-  imports: [ReactiveFormsModule, UserMaterialModule, CommonModule]
+    selector: 'app-movie-filter',
+    templateUrl: './movie-filter.component.html',
+    styleUrls: ['./movie-filter.component.scss'],
+    imports: [ReactiveFormsModule, UserMaterialModule, CommonModule]
 })
 export class MovieFilterComponent implements OnInit {
   filteredOptions: Observable<any> = of();

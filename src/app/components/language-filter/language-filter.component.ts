@@ -7,12 +7,11 @@ import { UserMaterialModule } from '../user-material.module';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-language-filter',
-  templateUrl: './language-filter.component.html',
-  styleUrls: ['./language-filter.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  standalone: true,
-  imports: [ReactiveFormsModule, UserMaterialModule, CommonModule]
+    selector: 'app-language-filter',
+    templateUrl: './language-filter.component.html',
+    styleUrls: ['./language-filter.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    imports: [ReactiveFormsModule, UserMaterialModule, CommonModule]
 })
 export class LanguageFilterComponent implements OnInit {
   languageForm: FormGroup = this.fb.group({ language: [] });

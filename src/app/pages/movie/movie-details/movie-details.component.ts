@@ -7,9 +7,10 @@ import { VideoComponent } from 'src/app/components/video/video.component';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-movie-details',
-  templateUrl: './movie-details.component.html',
-  styleUrls: ['./movie-details.component.scss']
+    selector: 'app-movie-details',
+    templateUrl: './movie-details.component.html',
+    styleUrls: ['./movie-details.component.scss'],
+    standalone: false
 })
 export class MovieDetailsComponent implements OnInit {
 

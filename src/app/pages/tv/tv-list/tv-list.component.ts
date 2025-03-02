@@ -6,9 +6,10 @@ import { TYPES_OF_TV, Types_of_Tv } from './../../../models/tv-models';
 import { Response_Data, ROUTE_LIST, TYPES_OF_ROUTES, Types_of_Routes } from './../../../models/common-models';
 
 @Component({
-  selector: 'app-tv-list',
-  templateUrl: './tv-list.component.html',
-  styleUrls: ['./tv-list.component.scss']
+    selector: 'app-tv-list',
+    templateUrl: './tv-list.component.html',
+    styleUrls: ['./tv-list.component.scss'],
+    standalone: false
 })
 export class TvListComponent implements OnInit {
 
