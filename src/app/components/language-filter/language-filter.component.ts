@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { map, Subscription } from 'rxjs';
 import { MovieService } from 'src/app/service/movie.service';
 import { UserMaterialModule } from '../user-material.module';
@@ -18,6 +18,7 @@ export class LanguageFilterComponent implements OnInit {
   langauges: any[] = [];
   getLanguagesSubscription: Subscription | undefined;
   constructor(private router: Router,
+              private route: ActivatedRoute,
               private fb: FormBuilder,
               private movie: MovieService
   ) { }
@@ -50,9 +51,9 @@ export class LanguageFilterComponent implements OnInit {
 
   onSubmitLanguage(value: any): any {
     if (!value.language) return;
-    const lastIndex = window.location.pathname.lastIndexOf('/');
-    const current = window.location.pathname.substring(0, lastIndex);
-    const realpath = current.split('/').length === 3 ? current : window.location.pathname;
+    const lastIndex = this.router.url.lastIndexOf('/');
+    const current = this.router.url.substring(0, lastIndex);
+    const realpath = current.split('/').length === 3 ? current : this.router.url;
     const pathname = realpath.indexOf('people') === -1 ? realpath : '/movie/popular'
     this.router.navigate([pathname], { queryParams: { page: 1, language: value.language.iso_639_1  } });
   }

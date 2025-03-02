@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of, Subscription } from 'rxjs';
 import { VideoComponent } from 'src/app/components/video/video.component';
 import { MovieService } from 'src/app/service/movie.service';
@@ -21,17 +21,19 @@ export class DetailsComponent implements OnInit {
   id: any = '';
   type: any = 'tv';
   paramSubscription: Subscription | undefined;
+  router = inject(Router);
   constructor(private route: ActivatedRoute,
               private movie: MovieService,
               private domSanitizer: DomSanitizer,
               private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.paramSubscription = this.route.params.subscribe((s: any) => {
+    this.paramSubscription = this.route.params
+    .subscribe((s: any) => {
       this.id = s.id;
       this.$tvDetails = this.movie.getDetails(this.id, this.type);
       this.$similarTV = this.movie.similar(this.id, 1, this.type);
-      const path = window.location.pathname;
+      const path = this.router.url;
       const f1 = path.indexOf('/', 1);
       const f2 = path.substr(f1).lastIndexOf('/');
       this.routeName = path.substr(f1 + 1, f2 - 1);
