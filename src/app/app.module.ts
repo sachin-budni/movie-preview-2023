@@ -4,7 +4,7 @@ import { BrowserModule, provideClientHydration, withEventReplay } from '@angular
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
 import { HomeModule } from './home/home.module';
 
 @NgModule({ declarations: [
@@ -14,7 +14,7 @@ import { HomeModule } from './home/home.module';
         HomeModule,
         AppRoutingModule,
         BrowserAnimationsModule], providers: [
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withInterceptorsFromDi(), withFetch()),
         provideClientHydration(withEventReplay())
     ] })
 export class AppModule { }

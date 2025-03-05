@@ -29,13 +29,6 @@ export class MovieDetailsComponent implements OnInit {
   movie = inject(MovieService);
   domSanitizer = inject(DomSanitizer);
   dialog = inject(MatDialog);
-  constructor(
-  // private route: ActivatedRoute,
-    // private router: Router,
-    // private movie: MovieService,
-    // private domSanitizer: DomSanitizer,
-    // private dialog: MatDialog
-  ) { }
 
   ngOnInit(): any {
     this.routerSubscription = this.route.params

@@ -26,7 +26,7 @@ export interface ThemeConfig {
   getActiveTheme: () => Observable<any>;
   setActiveThem: (name: any) => void
 }
-export const THEME_SERVICE = new InjectionToken<ThemeConfig>('sample');
+export const THEME_SERVICE = new InjectionToken<ThemeConfig>('Theme');
 @NgModule({ declarations: [
         LayoutComponent
     ],

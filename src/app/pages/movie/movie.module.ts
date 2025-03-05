@@ -15,9 +15,9 @@ import { CardComponent } from 'src/app/components/card/card.component';
     MovieDetailsComponent,
     MovieComponent,
     LatestMoviesComponent,
-    MovieLayoutComponent,
   ],
   imports: [
+    MovieLayoutComponent,
     CommonModule,
     MovieRoutingModule,
     UserMaterialModule,

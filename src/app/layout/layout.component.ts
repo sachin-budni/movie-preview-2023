@@ -1,6 +1,5 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { isPlatformServer } from '@angular/common';
-import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, signal, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Observable, of, Subscription } from 'rxjs';
@@ -17,8 +16,7 @@ import { THEME_SERVICE, ThemeConfig } from './layout.module';
     standalone: false
 })
 export class LayoutComponent implements OnInit {
-  activetedRouterName: any;
-  URL = 'http://localhost:4000/';
+  URL = '';
   links = [
     {
       name: 'Movie',
@@ -70,8 +68,7 @@ export class LayoutComponent implements OnInit {
   // tslint:disable-next-line: variable-name
   private _mobileQueryListener: () => void;
   @ViewChild('scroller', {static: false}) scrolls!: ElementRef;
-  activeThem = 'dark';
-  regions: any[] = [];
+  regions = signal<any[]>([]);
   regionForm: FormGroup = this.fb.group({});
   regionSubscription: Subscription | undefined;
 
@@ -79,16 +76,14 @@ export class LayoutComponent implements OnInit {
               private domSanitizer: DomSanitizer,
               changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
               private movie: MovieService, private fb: FormBuilder,
-              @Inject(THEME_SERVICE) private themeService: ThemeConfig,
-              @Inject(PLATFORM_ID) private platformId: string) {
+              @Inject(THEME_SERVICE) private themeService: ThemeConfig) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-    const domain = (isPlatformServer(platformId)) ? this.URL : '';
     this.mobileQuery.addListener(this._mobileQueryListener);
-    this.matIconRegistry.addSvgIcon('left_arrow', this.domSanitizer.bypassSecurityTrustResourceUrl(domain + 'assets/left_arrow.svg'));
-    this.matIconRegistry.addSvgIcon('right_arrow', this.domSanitizer.bypassSecurityTrustResourceUrl(domain + 'assets/right_arrow.svg'));
-    this.matIconRegistry.addSvgIcon('menu', this.domSanitizer.bypassSecurityTrustResourceUrl(domain + 'assets/menu.svg'));
-    this.matIconRegistry.addSvgIcon('no_data', this.domSanitizer.bypassSecurityTrustResourceUrl(domain + 'assets/no_data.svg'));
+    this.matIconRegistry.addSvgIcon('left_arrow', this.domSanitizer.bypassSecurityTrustResourceUrl(this.URL + 'assets/left_arrow.svg'));
+    this.matIconRegistry.addSvgIcon('right_arrow', this.domSanitizer.bypassSecurityTrustResourceUrl(this.URL + 'assets/right_arrow.svg'));
+    this.matIconRegistry.addSvgIcon('menu', this.domSanitizer.bypassSecurityTrustResourceUrl(this.URL + 'assets/menu.svg'));
+    this.matIconRegistry.addSvgIcon('no_data', this.domSanitizer.bypassSecurityTrustResourceUrl(this.URL + 'assets/no_data.svg'));
   }
   ngOnInit(): void {
     this.regionForm = this.fb.group({
@@ -97,14 +92,14 @@ export class LayoutComponent implements OnInit {
 
     this.regionSubscription = this.movie.regions
     .subscribe((list: any)=> {
-      this.regions = list.results;
+      this.regions.set(list.results);
     })
   }
 
   private _filter(value: string | any): string[] {
     const filterValue = typeof value == "object" ? value.native_name.toLowerCase() : value.toLowerCase();
 
-    return this.regions.filter(region => region.native_name.toLowerCase().includes(filterValue));
+    return this.regions().filter(region => region.native_name.toLowerCase().includes(filterValue));
   }
 
   ngOnDestroy(): void {
@@ -120,10 +115,8 @@ export class LayoutComponent implements OnInit {
   changeToggle(event: MatSlideToggleChange): any {
     if (event.checked) {
       this.themeService.setActiveThem('light');
-      this.activeThem = 'light';
     } else {
       this.themeService.setActiveThem('dark');
-      this.activeThem = 'dark';
     }
   }
 

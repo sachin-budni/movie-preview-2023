@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ElementRef, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, EventEmitter, Output, inject } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { Response_Data, ROUTE_LIST, UrlQueryParam } from 'src/app/models/common-models';
@@ -14,8 +14,7 @@ export class MovieComponent implements OnInit {
   @Input('Movies') $Movies: Observable<Response_Data> = of();
   @Input('MovieClassName') $nameOfRoute: ROUTE_LIST | null = null;
   @Output() pages = new EventEmitter<UrlQueryParam | number>();
-
-  constructor(private route: ActivatedRoute) { }
+  route = inject(ActivatedRoute);
 
   ngOnInit(): void {
   }
