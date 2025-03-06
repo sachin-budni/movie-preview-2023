@@ -26,7 +26,7 @@ export class MovieFilterComponent implements OnInit {
   ngOnInit(): void {
     this.constrollerSubscription = this.searchForm.controls['movie'].valueChanges.subscribe((movie: string) => {
       if (movie && movie.length !== 0) {
-        const name = window.location.pathname.split('/')[1];
+        const name = this.router.url.split('/')[1];
         const routeName = name === 'people' ? 'person' : name;
         this.filteredOptions = this.movie.searchMovieName(movie, routeName).pipe(
           map((movies: any) => movies.results)
@@ -54,7 +54,7 @@ export class MovieFilterComponent implements OnInit {
   }
 
   get currentRoute() {
-    const name = window.location.pathname.split('/')[1];
+    const name = this.router.url.split('/')[1];
     return name;
   }
 

@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { VideoComponent } from 'src/app/components/video/video.component';
@@ -22,6 +22,7 @@ export class DetailsComponent implements OnInit {
   type: any = 'person';
   id: any = '';
   paramSubscription: Subscription | undefined;
+  router = inject(Router);
   constructor(private route: ActivatedRoute,
     private movie: MovieService,
     private domSanitizer: DomSanitizer,
@@ -32,10 +33,10 @@ export class DetailsComponent implements OnInit {
       this.id = s.id;
       this.$movieDetails = this.movie.getDetails(this.id, this.type);
       this.$credits = this.movie.getPersonCred(this.id);
-      const path = window.location.pathname;
+      const path = this.router.url;
       const f1 = path.indexOf('/', 1);
-      const f2 = path.substr(f1).lastIndexOf('/');
-      this.routeName = path.substr(f1 + 1, f2 - 1);
+      const f2 = path.substring(f1).lastIndexOf('/');
+      this.routeName = path.substring(f1 + 1, f2 - 1);
       this.setTitle();
     });
   }

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute} from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute, Router} from '@angular/router';
 import { MovieService } from '../../../service/movie.service';
 import { Observable, of, Subscription } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -24,7 +24,9 @@ export class MovieDetailsComponent implements OnInit {
   type: string = 'movie';
   id: number = 0;
   routerSubscription: Subscription | undefined;
+  router = inject(Router);
   constructor(private route: ActivatedRoute,
+
     private movie: MovieService,
     private domSanitizer: DomSanitizer,
     private dialog: MatDialog) { }
@@ -38,7 +40,7 @@ export class MovieDetailsComponent implements OnInit {
       this.$movieReview = this.movie.moviesReviews(this.id, 1);
       // this.$translations = this.movie.translations(this.id);
       // this.$translations.subscribe(console.log)
-      const path = window.location.pathname;
+      const path = this.router.url;
       const f1 = path.indexOf('/', 1);
       const f2 = path.substring(f1).lastIndexOf('/');
       this.routeName = path.substring(f1 + 1, f2 - 1);

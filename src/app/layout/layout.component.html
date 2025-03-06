@@ -41,7 +41,7 @@
       <div class="sidenav-div">
         @if (mobileQuery.matches) {
           <div class="button-menu">
-            <button mat-icon-button (click)="snav.toggle()">
+            <button mat-icon-button aria-label="Menu" type="button" (click)="snav.toggle()">
               <mat-icon svgIcon="menu"></mat-icon>
             </button>
           </div>
