@@ -102,10 +102,11 @@ export class TrendingChartComponent implements OnInit {
     const url = this.router.url;
     const path = url.substring(url.indexOf('/'), url.indexOf('/', 1));
     const type = path.substring(1);
-    const name = ((this.route.data as any).getValue()?.name) as any;
+    const { name } = (this.route.data as any).getValue();
     this.movieService.setTitle(name);
     if (this.rating.length === 0) {
-      this.getTrendingChartsSubscription = this.movieService.getTrendingCharts(type === 'people' ? 'person' : type)
+      this.getTrendingChartsSubscription = this.movieService
+      .getTrendingCharts(type === 'people' ? 'person' : type)
         .subscribe((data: any) => {
           this.rating.push(...data.results.map((d: any) => ({ value: d.vote_average ?? d.popularity, ...d })));
           this.movieTitles.push(...data.results.map((d: any) => (d.title ? d.title : d.name)));

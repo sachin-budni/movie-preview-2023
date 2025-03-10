@@ -9,9 +9,7 @@ import { RouterLink } from '@angular/router';
     templateUrl: './card.component.html',
     styleUrls: ['./card.component.scss'],
 })
-export class CardComponent implements OnInit {
+export class CardComponent {
   @Input() credits: any = undefined;
   @Input() link: any = undefined;
-  ngOnInit(): void {
-  }
 }

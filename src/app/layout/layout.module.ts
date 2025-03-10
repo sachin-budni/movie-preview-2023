@@ -23,8 +23,8 @@ const routes: Routes = [
   ] },
 ];
 export interface ThemeConfig {
-  getActiveTheme: () => Observable<any>;
-  setActiveThem: (name: any) => void
+  getActiveTheme: () => Observable<string>;
+  setActiveThem: (name: string) => void
 }
 export const THEME_SERVICE = new InjectionToken<ThemeConfig>('sample');
 @NgModule({ declarations: [

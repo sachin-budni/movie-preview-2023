@@ -19,8 +19,8 @@ export class TvListComponent implements OnInit {
   constructor(private movieService: MovieService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): any {
-    this.routeName = ((this.route.data as any).getValue()?.title) as any;
-    const name = ((this.route.data as any).getValue()?.name) as any;
+    const { title, name } = (this.route.data as any).getValue();
+    this.routeName = title;
     this.movieService.setTitle(name);
     this.queryParamSubscription = this.route.queryParams
     .subscribe((params: any) => {

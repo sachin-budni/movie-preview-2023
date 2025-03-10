@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { Response_Data, ROUTE_LIST } from 'src/app/models/common-models';
 
@@ -9,14 +9,11 @@ import { Response_Data, ROUTE_LIST } from 'src/app/models/common-models';
     styleUrls: ['./tv.component.scss'],
     standalone: false
 })
-export class TvComponent implements OnInit {
+export class TvComponent {
   @Input('Movies') $Movies: Observable<Response_Data> = of();
   @Input('MovieClassName') $nameOfRoute: ROUTE_LIST | null = null;
   @Output() pages = new EventEmitter<any>();
-
-  constructor(private route: ActivatedRoute, private router: Router) { }
-
-  ngOnInit(): void {}
+  private route = inject(ActivatedRoute);
 
   pageChange(d: number): void {
     const params: any = this.route.snapshot.queryParams;

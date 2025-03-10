@@ -1,9 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { VideoComponent } from 'src/app/components/video/video.component';
 import { MovieService } from 'src/app/service/movie.service';
 
@@ -25,7 +23,6 @@ export class DetailsComponent implements OnInit {
   router = inject(Router);
   constructor(private route: ActivatedRoute,
     private movie: MovieService,
-    private domSanitizer: DomSanitizer,
     private dialog: MatDialog) { }
 
   ngOnInit(): any {
@@ -42,13 +39,11 @@ export class DetailsComponent implements OnInit {
   }
 
   async setTitle(): Promise<void> {
-    const result = await this.movie.getDetails(this.id, this.type).toPromise();
-    this.movie.setTitle(result.name);
-    this.movie.setMetaData(result);
+    this.$movieDetails.subscribe(result => {
+      this.movie.setTitle(result.name);
+      this.movie.setMetaData(result);
+    })
   }
-  // nextOrPreviousPage(e: any): void {
-  //   this.$similarMovies = this.movie.similar(this.id, e, this.type);
-  // }
 
   playTrailer(video: any) {
     let dialogRef = this.dialog.open(VideoComponent, {

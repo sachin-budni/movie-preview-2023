@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of, Subscription } from 'rxjs';
 import { Response_Data, ROUTE_LIST, UrlQueryParam } from 'src/app/models/common-models';
@@ -16,12 +16,13 @@ export class MovieListComponent implements OnInit {
   routeName: ROUTE_LIST = 'popular';
   $movieList: Observable<Response_Data> = of();
   queryparamSubscription: Subscription | undefined;
-  constructor(private movieService: MovieService, private route: ActivatedRoute, private router: Router) {
-  }
+  movieService = inject(MovieService)
+  route = inject(ActivatedRoute)
+  router = inject(Router)
 
   ngOnInit(): void {
-    this.routeName = ((this.route.data as any).getValue().title);
-    const name = ((this.route.data as any).getValue().name) as string;
+    const { title, name } = (this.route.data as any).getValue();
+    this.routeName = title;
     this.movieService.setTitle(name);
     this.queryparamSubscription = this.route.queryParams
     .subscribe((params: UrlQueryParam) => {

@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Observable, of } from 'rxjs';
 
 @Component({
@@ -9,16 +9,10 @@ import { Observable, of } from 'rxjs';
     standalone: false
 })
 export class PeopleComponent {
-  // tslint:disable-next-line:no-input-rename
   @Input('Movies') $Movies: Observable<any> = of({});
-  // tslint:disable-next-line:no-input-rename
   @Input('MovieClassName') $nameOfRoute: Observable<any> = of();
   @Output() pages = new EventEmitter<any>();
-
-  constructor(private route: ActivatedRoute, private router: Router) { }
-
-  ngOnInit(): any {
-  }
+  route = inject(ActivatedRoute);
 
   pageChange(d: number): any {
     const params: any = this.route.snapshot.queryParams;
