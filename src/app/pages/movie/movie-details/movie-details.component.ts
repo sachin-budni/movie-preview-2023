@@ -5,6 +5,7 @@ import { Observable, of, Subscription } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { VideoComponent } from 'src/app/components/video/video.component';
 import { MatDialog } from '@angular/material/dialog';
+import { getRouteName } from 'src/app/utils/utils';
 
 @Component({
     selector: 'app-movie-details',
@@ -40,10 +41,7 @@ export class MovieDetailsComponent implements OnInit {
       this.$movieReview = this.movie.moviesReviews(this.id, 1);
       // this.$translations = this.movie.translations(this.id);
       // this.$translations.subscribe(console.log)
-      const path = this.router.url;
-      const f1 = path.indexOf('/', 1);
-      const f2 = path.substring(f1).lastIndexOf('/');
-      this.routeName = path.substring(f1 + 1, f2 - 1);
+      this.routeName = getRouteName(this.router.url);
       this.$cast = this.movie.getMovieCast(this.id);
       this.setTitle();
     });

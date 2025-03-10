@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of, Subscription } from 'rxjs';
 import { VideoComponent } from 'src/app/components/video/video.component';
 import { MovieService } from 'src/app/service/movie.service';
+import { getRouteName } from 'src/app/utils/utils';
 
 @Component({
     selector: 'app-details',
@@ -32,10 +33,7 @@ export class DetailsComponent implements OnInit {
       this.id = s.id;
       this.$tvDetails = this.movie.getDetails(this.id, this.type);
       this.$similarTV = this.movie.similar(this.id, 1, this.type);
-      const path = this.router.url;
-      const f1 = path.indexOf('/', 1);
-      const f2 = path.substring(f1).lastIndexOf('/');
-      this.routeName = path.substring(f1 + 1, f2 - 1);
+      this.routeName = getRouteName(this.router.url);
       this.$cast = this.movie.getMovieCast(this.id);
       this.setTitle();
     });
