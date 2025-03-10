@@ -2,7 +2,7 @@ import { InjectionToken, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LayoutComponent } from './layout.component';
 import { UserMaterialModule } from '../components/user-material.module';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 import { MovieService } from '../service/movie.service';
 import { MovieApiInterceptor } from '../service/api.interceptor';
@@ -23,40 +23,34 @@ const routes: Routes = [
   ] },
 ];
 export interface ThemeConfig {
-  getActiveTheme: () => Observable<any>;
-  setActiveThem: (name: any) => void
+  getActiveTheme: () => Observable<string>;
+  setActiveThem: (name: string) => void
 }
 export const THEME_SERVICE = new InjectionToken<ThemeConfig>('sample');
-@NgModule({
-  declarations: [
-    LayoutComponent
-  ],
-  imports: [
-    CommonModule,
-    HttpClientModule,
-    RouterModule.forChild(routes),
-    UserMaterialModule,
-    LanguageFilterComponent,
-    MovieFilterComponent,
-    ThemeDirective
-  ],
-  providers: [
-    MovieService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: MovieApiInterceptor,
-      multi: true
-    },
-    {
-      provide: THEME_SERVICE,
-      useFactory: themeService,
-      deps: []
-    }
-  ],
-  exports: [
-    LayoutComponent
-  ]
-})
+@NgModule({ declarations: [
+        LayoutComponent
+    ],
+    exports: [
+        LayoutComponent
+    ], imports: [CommonModule,
+        RouterModule.forChild(routes),
+        UserMaterialModule,
+        LanguageFilterComponent,
+        MovieFilterComponent,
+        ThemeDirective], providers: [
+        MovieService,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: MovieApiInterceptor,
+            multi: true
+        },
+        {
+            provide: THEME_SERVICE,
+            useFactory: themeService,
+            deps: []
+        },
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class LayoutModule { }
 
 

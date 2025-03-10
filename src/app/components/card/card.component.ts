@@ -4,15 +4,12 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-card',
-  templateUrl: './card.component.html',
-  styleUrls: ['./card.component.scss'],
-  standalone: true,
-  imports: [UserMaterialModule, CommonModule, RouterLink]
+    selector: 'app-card',
+    imports: [UserMaterialModule, CommonModule, RouterLink],
+    templateUrl: './card.component.html',
+    styleUrls: ['./card.component.scss'],
 })
-export class CardComponent implements OnInit {
+export class CardComponent {
   @Input() credits: any = undefined;
   @Input() link: any = undefined;
-  ngOnInit(): void {
-  }
 }

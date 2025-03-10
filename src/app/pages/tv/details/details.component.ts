@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of, Subscription } from 'rxjs';
 import { VideoComponent } from 'src/app/components/video/video.component';
 import { MovieService } from 'src/app/service/movie.service';
+import { getRouteName } from 'src/app/utils/utils';
 
 @Component({
-  selector: 'app-details',
-  templateUrl: './details.component.html',
-  styleUrls: ['./details.component.scss']
+    selector: 'app-details',
+    templateUrl: './details.component.html',
+    styleUrls: ['./details.component.scss'],
+    standalone: false
 })
 export class DetailsComponent implements OnInit {
   $tvDetails: Observable<any> = of();
@@ -19,6 +21,7 @@ export class DetailsComponent implements OnInit {
   routeName: any = 'popular';
   id: any = '';
   type: any = 'tv';
+  router = inject(Router);
   paramSubscription: Subscription | undefined;
   constructor(private route: ActivatedRoute,
               private movie: MovieService,
@@ -30,10 +33,7 @@ export class DetailsComponent implements OnInit {
       this.id = s.id;
       this.$tvDetails = this.movie.getDetails(this.id, this.type);
       this.$similarTV = this.movie.similar(this.id, 1, this.type);
-      const path = window.location.pathname;
-      const f1 = path.indexOf('/', 1);
-      const f2 = path.substr(f1).lastIndexOf('/');
-      this.routeName = path.substr(f1 + 1, f2 - 1);
+      this.routeName = getRouteName(this.router.url);
       this.$cast = this.movie.getMovieCast(this.id);
       this.setTitle();
     });

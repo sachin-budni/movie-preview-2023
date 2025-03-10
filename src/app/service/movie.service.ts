@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Meta, Title } from '@angular/platform-browser';
@@ -9,11 +9,9 @@ import { Response_Data, TYPES_OF_ROUTES, UrlQueryParam } from '../models/common-
 @Injectable()
 export class MovieService {
   languages: any[] = [];
-  constructor(private http: HttpClient, private title: Title, private meta: Meta) { }
-
-  // setCurrentRoute(route: string) {
-  //   this.currentRoute = route;
-  // }
+  private http = inject(HttpClient);
+  private title = inject(Title);
+  private meta = inject(Meta);
 
   setMetaData(result: any) {
     this.meta.updateTag({property: 'og:title', content: (result.title || result.name)}, 'url')
@@ -42,9 +40,9 @@ export class MovieService {
   getList(type: TYPES_OF_ROUTES, routerName: TYPES_OF_MOVIE | TYPES_OF_TV, params: any): Observable<Response_Data> {
     let api = '';
     if (params.with_original_language) {
-      api = `/${type}/${routerName}?api_key=&language=kn-IN&page=${params.page}&with_original_language=${params.with_original_language}`;
+      api = `/${type}/${routerName}?api_key=&language=en-IN&page=${params.page}&with_original_language=${params.with_original_language}`;
     } else {
-      api = `/${type}/${routerName}?api_key=&language=kn-IN&page=${params.page}`;
+      api = `/${type}/${routerName}?api_key=&language=en-IN&page=${params.page}`;
     }
     return this.http.get<Response_Data>(api);
   }

@@ -20,8 +20,7 @@ import { Component } from "@angular/core";
             height: 100%;
             object-fit: contain; 
         }
-    `],
-    standalone: true
+    `]
 })
 
 export class PageNotFoundComponent {}

@@ -7,12 +7,11 @@ import { UserMaterialModule } from '../user-material.module';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-language-filter',
-  templateUrl: './language-filter.component.html',
-  styleUrls: ['./language-filter.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  standalone: true,
-  imports: [ReactiveFormsModule, UserMaterialModule, CommonModule]
+    selector: 'app-language-filter',
+    templateUrl: './language-filter.component.html',
+    styleUrls: ['./language-filter.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    imports: [ReactiveFormsModule, UserMaterialModule, CommonModule]
 })
 export class LanguageFilterComponent implements OnInit {
   languageForm: FormGroup = this.fb.group({ language: [] });
@@ -51,9 +50,9 @@ export class LanguageFilterComponent implements OnInit {
 
   onSubmitLanguage(value: any): any {
     if (!value.language) return;
-    const lastIndex = window.location.pathname.lastIndexOf('/');
-    const current = window.location.pathname.substring(0, lastIndex);
-    const realpath = current.split('/').length === 3 ? current : window.location.pathname;
+    const lastIndex = this.router.url.lastIndexOf('/');
+    const current = this.router.url.substring(0, lastIndex);
+    const realpath = current.split('/').length === 3 ? current : this.router.url;
     const pathname = realpath.indexOf('people') === -1 ? realpath : '/movie/popular'
     this.router.navigate([pathname], { queryParams: { page: 1, language: value.language.iso_639_1  } });
   }

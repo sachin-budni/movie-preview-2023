@@ -7,11 +7,10 @@ import { UserMaterialModule } from '../user-material.module';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-movie-filter',
-  templateUrl: './movie-filter.component.html',
-  styleUrls: ['./movie-filter.component.scss'],
-  standalone: true,
-  imports: [ReactiveFormsModule, UserMaterialModule, CommonModule]
+    selector: 'app-movie-filter',
+    templateUrl: './movie-filter.component.html',
+    styleUrls: ['./movie-filter.component.scss'],
+    imports: [ReactiveFormsModule, UserMaterialModule, CommonModule]
 })
 export class MovieFilterComponent implements OnInit {
   filteredOptions: Observable<any> = of();
@@ -27,7 +26,7 @@ export class MovieFilterComponent implements OnInit {
   ngOnInit(): void {
     this.constrollerSubscription = this.searchForm.controls['movie'].valueChanges.subscribe((movie: string) => {
       if (movie && movie.length !== 0) {
-        const name = window.location.pathname.split('/')[1];
+        const name = this.router.url.split('/')[1];
         const routeName = name === 'people' ? 'person' : name;
         this.filteredOptions = this.movie.searchMovieName(movie, routeName).pipe(
           map((movies: any) => movies.results)
@@ -55,7 +54,7 @@ export class MovieFilterComponent implements OnInit {
   }
 
   get currentRoute() {
-    const name = window.location.pathname.split('/')[1];
+    const name = this.router.url.split('/')[1];
     return name;
   }
 

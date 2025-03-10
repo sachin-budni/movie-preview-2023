@@ -10,10 +10,11 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { THEME_SERVICE, ThemeConfig } from './layout.module';
 
 @Component({
-  selector: 'app-layout',
-  templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.scss'],
-  providers: []
+    selector: 'app-layout',
+    templateUrl: './layout.component.html',
+    styleUrls: ['./layout.component.scss'],
+    providers: [],
+    standalone: false
 })
 export class LayoutComponent implements OnInit {
   activetedRouterName: any;

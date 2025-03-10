@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, of, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { MovieService } from 'src/app/service/movie.service';
 
 @Component({
-  selector: 'app-people-list',
-  templateUrl: './people-list.component.html',
-  styleUrls: ['./people-list.component.scss']
+    selector: 'app-people-list',
+    templateUrl: './people-list.component.html',
+    styleUrls: ['./people-list.component.scss'],
+    standalone: false
 })
 export class PeopleListComponent implements OnInit {
   routeName: any = 'popular';
@@ -17,8 +18,8 @@ export class PeopleListComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): any {
-    this.routeName = ((this.route.data as any).getValue()?.title) as any;
-    const name = ((this.route.data as any).getValue()?.name) as any;
+    const { title, name } = (this.route.data as any).getValue();
+    this.routeName = title;
     this.movieService.setTitle(name);
     this.queryParamSubscription = this.route.queryParams.subscribe((params: any) => {
       if (params.page || params.language) {

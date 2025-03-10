@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Inject, OnInit, OnDestroy, Optional, inject } from '@angular/core';
+import { Directive, Inject, OnInit, OnDestroy, signal } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
 import { THEME_SERVICE, ThemeConfig } from '../layout/layout.module';
@@ -6,24 +6,21 @@ import { THEME_SERVICE, ThemeConfig } from '../layout/layout.module';
 @Directive({
   selector: '[appTheme]',
   standalone: true,
-  providers: []
 })
 export class ThemeDirective implements OnInit, OnDestroy {
 
-  private themeName = 'dark';
+  private themeName = signal<string>('dark');
   private themServiceSubscription: Subscription = new Subscription();
-  // themService = inject
-  constructor(private elementRef: ElementRef,
-              @Inject(DOCUMENT) private document: Document,
-              @Inject(THEME_SERVICE) private themService: ThemeConfig
-            ) { }
+  constructor(@Inject(DOCUMENT) private document: Document,
+              @Inject(THEME_SERVICE) private themService: ThemeConfig) { }
 
   ngOnInit(): void {
-    this.updateTheme(this.themeName);
-    this.themServiceSubscription = this.themService.getActiveTheme()
-      .subscribe((themeName: any) => {
-        this.themeName = themeName;
-        this.updateTheme(this.themeName);
+    this.updateTheme(this.themeName());
+    this.themServiceSubscription = this.themService
+    .getActiveTheme()
+      .subscribe((themeName: string) => {
+        this.themeName.set(themeName);
+        this.updateTheme(this.themeName());
       });
   }
 

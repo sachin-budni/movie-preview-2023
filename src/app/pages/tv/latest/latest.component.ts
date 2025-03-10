@@ -3,9 +3,10 @@ import { Observable, of } from 'rxjs';
 import { MovieService } from 'src/app/service/movie.service';
 
 @Component({
-  selector: 'app-latest',
-  templateUrl: './latest.component.html',
-  styleUrls: ['./latest.component.scss']
+    selector: 'app-latest',
+    templateUrl: './latest.component.html',
+    styleUrls: ['./latest.component.scss'],
+    standalone: false
 })
 export class LatestComponent implements OnInit {
   $latestTV: Observable<any> = of();
