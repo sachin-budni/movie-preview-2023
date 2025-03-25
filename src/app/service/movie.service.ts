@@ -51,7 +51,7 @@ export class MovieService {
     return this.http.get(`/trending/${type}/day?api_key=`);
   }
 
-  getDetails(id: any, type: any): any {
+  getDetails(id: any, type: any): Observable<any> {
     return this.http.get(`/${type}/${id}?api_key=&language=en-US&append_to_response=videos`);
   }
 
