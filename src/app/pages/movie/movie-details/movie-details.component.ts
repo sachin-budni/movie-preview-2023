@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router} from '@angular/router';
 import { MovieService } from '../../../service/movie.service';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, of, shareReplay, Subscription } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { VideoComponent } from 'src/app/components/video/video.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -34,22 +34,21 @@ export class MovieDetailsComponent implements OnInit {
     this.routerSubscription = this.route.params
     .subscribe((s: any) => {
       this.id = s.id;
-      this.$movieDetails = this.movie.getDetails(this.id, this.type);
+      this.$movieDetails = this.movie.getDetails(this.id, this.type)
+      .pipe(shareReplay());
       this.$similarMovies = this.movie.similar(this.id, 1, this.type);
       this.$movieReview = this.movie.moviesReviews(this.id, 1);
-      // this.$translations = this.movie.translations(this.id);
-      // this.$translations.subscribe(console.log)
       const path = this.router.url;
       const f1 = path.indexOf('/', 1);
-      const f2 = path.substring(f1).lastIndexOf('/');
-      this.routeName = path.substring(f1 + 1, f2 - 1);
+      const f2 = path.lastIndexOf('/');
+      this.routeName = path.substring(f1 + 1, f2);
       this.$cast = this.movie.getMovieCast(this.id);
       this.setTitle();
     });
   }
 
   async setTitle(): Promise<void> {
-    const result = await this.movie.getDetails(this.id, this.type).toPromise();
+    const result = await this.$movieDetails.toPromise();
     this.movie.setTitle(result.title);
     this.movie.setMetaData(result);
   }

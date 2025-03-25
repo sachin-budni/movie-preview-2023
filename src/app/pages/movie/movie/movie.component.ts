@@ -9,15 +9,12 @@ import { Response_Data, ROUTE_LIST, UrlQueryParam } from 'src/app/models/common-
     styleUrls: ['./movie.component.scss'],
     standalone: false
 })
-export class MovieComponent implements OnInit {
+export class MovieComponent {
 
   @Input('Movies') $Movies: Observable<Response_Data> = of();
   @Input('MovieClassName') $nameOfRoute: ROUTE_LIST | null = null;
   @Output() pages = new EventEmitter<UrlQueryParam | number>();
   route = inject(ActivatedRoute);
-
-  ngOnInit(): void {
-  }
 
   pageChange(d: number): any {
     const params: UrlQueryParam = this.route.snapshot.queryParams;
