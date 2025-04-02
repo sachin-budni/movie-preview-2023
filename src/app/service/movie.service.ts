@@ -47,6 +47,16 @@ export class MovieService {
     return this.http.get<Response_Data>(api);
   }
 
+  getDiscover(type: TYPES_OF_ROUTES, routerName: TYPES_OF_MOVIE | TYPES_OF_TV, params: any): Observable<Response_Data> {
+    let api = '';
+    if (params.with_original_language) {
+      api = `/${routerName}/${type}?api_key=&language=en-IN&page=${params.page}&with_original_language=${params.with_original_language}`;
+    } else {
+      api = `/${routerName}/${type}?api_key=&language=en-IN&page=${params.page}`;
+    }
+    return this.http.get<Response_Data>(api);
+  }
+
   getTrendingCharts(type: string): any {
     return this.http.get(`/trending/${type}/day?api_key=`);
   }

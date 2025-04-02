@@ -51,6 +51,9 @@ export class MovieListComponent implements OnInit {
       case 'now-playing':
         this.$movieList = this.movieService.getList('movie', Types_of_Movie.NOW_PLAYING, Obj);
         break;
+      case 'discover':
+        this.$movieList = this.movieService.getDiscover('movie', Types_of_Movie.DISCOVER, Obj);
+        break;
       default:
         this.$movieList = this.movieService.getList('movie', this.routeName, Obj);
         break;

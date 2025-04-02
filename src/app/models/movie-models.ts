@@ -1,4 +1,4 @@
-export type TYPES_OF_MOVIE = 'top_rated' | 'now_playing' | 'popular' | 'latest' | 'upcoming';
+export type TYPES_OF_MOVIE = 'top_rated' | 'now_playing' | 'popular' | 'latest' | 'upcoming' | 'discover';
 
 
 export enum Types_of_Movie {
@@ -7,4 +7,5 @@ export enum Types_of_Movie {
     POPULAR = 'popular',
     LATEST = 'latest',
     UPCOMING = 'upcoming',
+    DISCOVER = 'discover'
 }
