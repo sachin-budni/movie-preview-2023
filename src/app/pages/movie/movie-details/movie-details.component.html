@@ -47,6 +47,39 @@
         }
       </div>
     </div>
+    @if ($cast | async; as castCrew) { 
+    <mat-tab-group>
+      <mat-tab label="Cast">
+        <div class="casts row">
+            @for (item of castCrew.cast; track item.id) {
+              <div class="cast" [routerLink]="['/people/popular', item.id]">
+                <img [src]="item.profile_path ? 'https://image.tmdb.org/t/p/w500'+item.profile_path : 'assets/account_dp.svg'" alt="">
+                <div>
+                  <p>{{item.character}}</p>
+                  <p class="department">{{item.known_for_department}}</p>
+                  <p>{{item.original_name}}</p>
+                </div>
+              </div>
+            }
+          </div>
+        </mat-tab>
+        <mat-tab label="Crew">
+          <div class="casts row">
+              @for (item of castCrew.crew; track item.id) {
+                <div class="cast" [routerLink]="['/people/popular', item.id]">
+                  <img [src]="item.profile_path ? 'https://image.tmdb.org/t/p/w500'+item.profile_path : 'assets/account_dp.svg'" alt="">
+                  <div>
+                    <p>{{item.job}}</p>
+                    <p class="department">{{item.known_for_department}}</p>
+                    <p>{{item.original_name}}</p>
+                  </div>
+                </div>
+              }
+            </div>
+
+        </mat-tab>
+      </mat-tab-group>
+    }
     <app-movie [Movies]="$similarMovies" (pages)="nextOrPreviousPage($event)" [MovieClassName]="routeName"></app-movie>
   </div>
 }

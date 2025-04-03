@@ -10,10 +10,17 @@ import { Response_Data, ROUTE_LIST, UrlQueryParam } from 'src/app/models/common-
     standalone: false
 })
 export class MovieComponent implements OnInit {
-
+  _routerName: ROUTE_LIST = 'popular'
   @Input('Movies') $Movies: Observable<Response_Data> = of();
-  @Input('MovieClassName') $nameOfRoute: ROUTE_LIST | null = null;
+
+  @Input('MovieClassName') set $nameOfRoute(value: ROUTE_LIST) {
+    this._routerName = value !== 'discover' ? value : 'popular';
+  };
   @Output() pages = new EventEmitter<UrlQueryParam | number>();
+
+  get getRouterName(): ROUTE_LIST {
+    return this._routerName;
+  }
 
   constructor(private route: ActivatedRoute) { }
 

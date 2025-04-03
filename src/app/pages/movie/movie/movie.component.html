@@ -1,7 +1,7 @@
 @if ($Movies | async; as Movies) {
 <div class="movies">
   @for (movie of Movies.results; track $index) {
-  <app-card [link]="'/movie/'+$nameOfRoute" [credits]="movie" class="example-card"></app-card>
+  <app-card [link]="'/movie/'+getRouterName" [credits]="movie" class="example-card"></app-card>
   }
   @if (Movies.total_results === 0) {
     <div class="no-data">

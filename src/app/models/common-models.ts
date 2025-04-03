@@ -1,6 +1,6 @@
 export type TYPES_OF_ROUTES = 'tv' | 'movie' | 'person';
 
-export type ROUTE_LIST = 'top-rated' | 'popular' | 'latest' | 'now-playing' | 'upcoming';
+export type ROUTE_LIST = 'top-rated' | 'popular' | 'latest' | 'now-playing' | 'upcoming' | 'discover';
 
 export enum Types_of_Routes {
     TV = 'tv',

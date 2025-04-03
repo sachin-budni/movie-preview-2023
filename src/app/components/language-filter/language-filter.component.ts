@@ -5,6 +5,7 @@ import { map, Subscription } from 'rxjs';
 import { MovieService } from 'src/app/service/movie.service';
 import { UserMaterialModule } from '../user-material.module';
 import { CommonModule } from '@angular/common';
+import { getRoute } from 'src/app/utils/utils';
 
 @Component({
     selector: 'app-language-filter',
@@ -50,11 +51,7 @@ export class LanguageFilterComponent implements OnInit {
 
   onSubmitLanguage(value: any): any {
     if (!value.language) return;
-    const lastIndex = this.router.url.lastIndexOf('/');
-    const current = this.router.url.substring(0, lastIndex);
-    const realpath = current.split('/').length === 3 ? current : this.router.url;
-    const pathname = realpath.indexOf('people') === -1 ? realpath : '/movie/popular'
-    this.router.navigate([pathname], { queryParams: { page: 1, language: value.language.iso_639_1  } });
+    this.router.navigate([`/movie/discover`], { queryParams: { page: 1, language: value.language.iso_639_1  } });
   }
 
   ngOnDestroy() {
