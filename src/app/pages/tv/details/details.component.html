@@ -33,7 +33,7 @@
       <h4 class="title-header">Created By:</h4>
       <div class="row">
         @for (director of tv.created_by; track $index) {
-        <div class="director-div">
+        <div class="director-div" [routerLink]="['/people/popular', director.id]">
           <img class="profile-pic"
             [src]="director.profile_path ? 'https://image.tmdb.org/t/p/w500'+director.profile_path : 'assets/account_dp.svg'"
             alt="">

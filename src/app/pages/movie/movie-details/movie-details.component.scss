@@ -98,3 +98,36 @@
 .main-head {
     margin-bottom: 40px;
 }
+.casts {
+    gap: 10px;
+    padding: 10px 0px;
+}
+.casts > .cast {
+    width: 110px;
+}
+
+.casts > .cast > img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    object-position: top;
+    border: 4px solid #fff;
+}
+.casts > .cast > div {
+    text-align: center;
+}
+.casts > .cast p {
+    margin: 0px;
+    color: var(--text-color) !important;
+    text-align: center;
+}
+.casts > .cast p:first-child {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.department {
+    border-radius: 12px;
+    border: 1px solid #fff;
+}
