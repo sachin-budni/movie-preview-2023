@@ -4,7 +4,7 @@
     (ngSubmit)="onSubmitLanguage(languageForm.value)">
     <mat-form-field class="example-full-width" appearance="outline">
       <mat-label class="lable">Language</mat-label>
-      <input type="text" placeholder="Languages" class="input-lang" aria-label="Languages" matInput
+      <input type="text" placeholder="Languages" autofocus="false" class="input-lang" aria-label="Languages" matInput
         formControlName="language" [matAutocomplete]="movieLanguage">
       <mat-autocomplete autoActiveFirstOption #movieLanguage="matAutocomplete" [displayWith]="displayLanguageFn"
         class="auto-complete">

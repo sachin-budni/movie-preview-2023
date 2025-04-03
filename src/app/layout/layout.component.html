@@ -1,9 +1,9 @@
 <div class="example-container" [class.example-is-mobile]="mobileQuery.matches" appTheme>
   <mat-sidenav-container class="example-sidenav-container">
-    <mat-sidenav #snav [mode]="mobileQuery.matches?'over':'side'" disableClose="true" [opened]="!mobileQuery.matches"
+    <mat-sidenav #snav [mode]="mobileQuery.matches?'over':'side'" disableClose="false" [opened]="!mobileQuery.matches"
       class="example-side-nav">
       @if (mobileQuery.matches) {
-        <div style="float: right">
+        <div class="menu-icon">
           <button mat-icon-button (click)="snav.toggle()">
             <mat-icon svgIcon="menu"></mat-icon>
           </button>
@@ -13,7 +13,15 @@
         <mat-slide-toggle class="toggle" (change)="changeToggle($event)">
           <span>Change Theme!</span>
         </mat-slide-toggle>
-        <button mat-raised-button routerLinkActive="active" class="trend" routerLink="/all/trendingchart">All Trending Chart</button>
+        <button
+          mat-raised-button
+          routerLinkActive="active"
+          class="trend"
+          routerLink="/all/trendingchart"
+          (click)="snav.toggle()"
+        >
+          All Trending Chart
+        </button>
         @for (link of links; track link) {
           <mat-expansion-panel [expanded]="true">
             <mat-expansion-panel-header>
@@ -24,6 +32,7 @@
             <mat-nav-list class="nav-list">
               @for (nav of link.links; track nav.path) {
                 <a mat-list-item routerLinkActive="active"
+                (click)="snav.toggle()"
                   routerLink="/{{link.link}}/{{nav.path}}">
                   <span class="link-name">{{nav.name}}</span>
                 </a>
