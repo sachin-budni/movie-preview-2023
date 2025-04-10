@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { TvListComponent } from './tv-list/tv-list.component';
 import { LatestComponent } from './latest/latest.component';
-import { DetailsComponent } from './details/details.component';
 const routes: Routes = [
   { path: 'trendingchart', loadComponent: () => import('./../../components/trending-chart/trending-chart.component')
     .then(c => c.TrendingChartComponent) , data: { title: 'trendingchart', name: 'Trending Chart of TV' } },
@@ -13,10 +12,14 @@ const routes: Routes = [
   { path: 'top-rated', component: TvListComponent, data: { title: 'top-rated', name: 'Top-rated Tv-show' } },
   { path: 'now-playing', component: TvListComponent, data: { title: 'now-playing', name: 'Now-playing Tv-show' } },
 
-  { path: 'popular/:id', component: DetailsComponent },
-  { path: 'upcoming/:id', component: DetailsComponent },
-  { path: 'top-rated/:id', component: DetailsComponent },
-  { path: 'now-playing/:id', component: DetailsComponent },
+  // { path: 'popular/:id', component: DetailsComponent },
+  // { path: 'upcoming/:id', component: DetailsComponent },
+  // { path: 'top-rated/:id', component: DetailsComponent },
+  // { path: 'now-playing/:id', component: DetailsComponent },
+  { path: 'popular/:id', loadComponent: () => import('./../../components/details/details.component').then(c => c.DetailsComponent), data: { type: 'tv' } },
+  { path: 'upcoming/:id', loadComponent: () => import('./../../components/details/details.component').then(c => c.DetailsComponent), data: { type: 'tv' } },
+  { path: 'top-rated/:id', loadComponent: () => import('./../../components/details/details.component').then(c => c.DetailsComponent), data: { type: 'tv' } },
+  { path: 'now-playing/:id', loadComponent: () => import('./../../components/details/details.component').then(c => c.DetailsComponent), data: { type: 'tv' } },
 
   { path: '', redirectTo: 'popular', pathMatch: 'full' },
   { path: '**', redirectTo: 'popular', pathMatch: 'full' },

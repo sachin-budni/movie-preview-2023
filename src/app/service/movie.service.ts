@@ -69,8 +69,8 @@ export class MovieService {
     return this.http.get(`/person/${id}/combined_credits?api_key=&language=en-US`);
   }
 
-  getMovieCast(id: number): any {
-    return this.http.get(`/movie/${id}/credits?api_key=`);
+  getMovieCast(id: number, type: string): any {
+    return this.http.get(`/${type}/${id}/credits?api_key=`);
   }
 
   getLatest(type: string): any {

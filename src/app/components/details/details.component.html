@@ -17,7 +17,7 @@
             }
         </div>
         <div class="tv-details">
-          <h3 class="title">{{movie.title}}</h3>
+          <h3 class="title">{{movie.title ? movie.title : movie.name}}</h3>
           @for (gen of movie.genres; track gen.id) {
             <span class="genres">{{gen.name}}</span>
           }
@@ -29,6 +29,20 @@
             <div class="p-t-1"></div>
             <p class="overview">{{movie.overview}}</p>
           }
+          @if (movie.created_by && movie.created_by.length !== 0) {
+            <h4 class="title-header">Created By:</h4>
+            <div class="row">
+              @for (director of movie.created_by; track director.id) {
+              <div class="director-div" [routerLink]="['/people/popular', director.id]">
+                <img class="profile-pic"
+                  [src]="director.profile_path ? 'https://image.tmdb.org/t/p/w500'+director.profile_path : 'assets/account_dp.svg'"
+                  alt="">
+                <p class="overview director-name">{{director.name}}</p>
+              </div>
+              }
+            </div>
+            <div class="p-tb-1"></div>
+            }
           @if (movie.release_date) {
             <div class="p-tb-1"></div>
             <h6 class="language">Release : <span>{{movie.release_date | date:'longDate'}}</span></h6>
@@ -51,13 +65,13 @@
       <mat-tab-group>
         <mat-tab label="Cast">
           <div class="casts row">
-              @for (item of castCrew.cast; track item.id) {
-                <div class="cast" [routerLink]="['/people/popular', item.id]">
-                  <img [src]="item.profile_path ? 'https://image.tmdb.org/t/p/w500'+item.profile_path : 'assets/account_dp.svg'" alt="">
+              @for (cast of castCrew.cast; track cast.id) {
+                <div class="cast" [routerLink]="['/people/popular', cast.id]">
+                  <img [src]="cast.profile_path ? 'https://image.tmdb.org/t/p/w500'+cast.profile_path : 'assets/account_dp.svg'" alt="">
                   <div>
-                    <p>{{item.character}}</p>
-                    <p class="department">{{item.known_for_department}}</p>
-                    <p>{{item.original_name}}</p>
+                    <p>{{cast.character}}</p>
+                    <p class="department">{{cast.known_for_department}}</p>
+                    <p>{{cast.original_name}}</p>
                   </div>
                 </div>
               }
@@ -65,7 +79,7 @@
           </mat-tab>
           <mat-tab label="Crew">
             <div class="casts row">
-                @for (item of castCrew.crew; track item.id) {
+                @for (item of castCrew.crew; track item.credit_id) {
                   <div class="cast" [routerLink]="['/people/popular', item.id]">
                     <img [src]="item.profile_path ? 'https://image.tmdb.org/t/p/w500'+item.profile_path : 'assets/account_dp.svg'" alt="">
                     <div>
@@ -80,7 +94,7 @@
           </mat-tab>
         </mat-tab-group>
       }
-      <!-- <app-movie [Movies]="$similarMovies" (pages)="nextOrPreviousPage($event)" [MovieClassName]="routeName"></app-movie> -->
+      <app-card-movie-tv [Movies]="$similarMovies" (pages)="nextOrPreviousPage($event)" [MovieClassName]="routeName" [type]="type"></app-card-movie-tv>
     </div>
   }
   

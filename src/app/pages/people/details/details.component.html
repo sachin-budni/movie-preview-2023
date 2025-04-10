@@ -33,7 +33,7 @@
   </div>
   @if ($credits | async; as credits) {
   <div class="cast-list">
-    @for (cast of credits.cast; track $index) {
+    @for (cast of credits.cast; track cast.id) {
     <app-card [link]="'/'+cast.media_type+'/popular'" [credits]="cast"></app-card>
     }
   </div>

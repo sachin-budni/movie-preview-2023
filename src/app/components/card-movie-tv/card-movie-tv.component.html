@@ -1,6 +1,6 @@
 @if ($Movies | async; as Movies) {
     <div class="movies">
-      @for (movie of Movies.results; track $index) {
+      @for (movie of Movies.results; track movie.id) {
       <app-card [link]="'/'+type+'/'+getRouterName" [credits]="movie" class="example-card"></app-card>
       }
       @if (Movies.total_results === 0) {

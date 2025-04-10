@@ -17,7 +17,8 @@ const routes: Routes = [
       .then(c => c.TrendingChartComponent) , data: { title: 'trendingchart', name: 'Trending Chart' } },
     { path: 'tv', loadChildren: () => import('./../pages/tv/tv.module').then(m=> m.TvModule) },
     { path: 'people', loadChildren: () => import('./../pages/people/people.module').then(m=> m.PeopleModule) },
-    { path: '', loadChildren: () => import('./../pages/movie/movie.module').then(m=> m.MovieModule) },
+    { path: 'movie', loadChildren: () => import('./../pages/movie/movie.module').then(m=> m.MovieModule) },
+    { path: '', redirectTo: 'movie',pathMatch: 'full' },
     { path: '**', loadComponent: () => import('./../components/page-not-found.component')
       .then(c => c.PageNotFoundComponent)
      }

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
@@ -8,10 +8,11 @@ import { getRouteName } from 'src/app/utils/utils';
 import { VideoComponent } from '../video/video.component';
 import { CommonModule } from '@angular/common';
 import { UserMaterialModule } from '../user-material.module';
+import { CardMovieTvComponent } from '../card-movie-tv/card-movie-tv.component';
 
 @Component({
   selector: 'app-details',
-  imports: [RouterModule, CommonModule, UserMaterialModule],
+  imports: [RouterModule, CommonModule, UserMaterialModule, CardMovieTvComponent],
   templateUrl: './details.component.html',
   styleUrl: './details.component.scss',
   providers: [MovieService]
@@ -24,8 +25,8 @@ export class DetailsComponent {
     $translations: Observable<any> = of();
     $cast: Observable<any> = of();
     routeName: any = 'popular';
-    type: string = 'movie';
-    id: number = 0;
+    @Input() type: string = 'movie'
+    @Input() id: number = 0;
     routerSubscription: Subscription | undefined;
     router = inject(Router);
     constructor(private route: ActivatedRoute,
@@ -43,7 +44,7 @@ export class DetailsComponent {
         this.$similarMovies = this.movie.similar(this.id, 1, this.type);
         this.$movieReview = this.movie.moviesReviews(this.id, 1);
         this.routeName = getRouteName(this.router.url);
-        this.$cast = this.movie.getMovieCast(this.id);
+        this.$cast = this.movie.getMovieCast(this.id, this.type);
         this.setTitle();
       });
     }

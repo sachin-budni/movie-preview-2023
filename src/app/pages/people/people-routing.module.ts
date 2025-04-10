@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { PeopleListComponent } from './people-list/people-list.component';
-import { LatestComponent } from './latest/latest.component';
 import { DetailsComponent } from './details/details.component';
 
 // const routes: Routes = [

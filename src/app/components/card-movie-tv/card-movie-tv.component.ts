@@ -14,26 +14,26 @@ import { CardComponent } from '../card/card.component';
 })
 export class CardMovieTvComponent {
   _routerName: ROUTE_LIST = 'popular'
-    @Input('Movies') $Movies: Observable<Response_Data> = of();
-    @Input('type') type: string = 'movie';
-  
-    @Input('MovieClassName') set $nameOfRoute(value: ROUTE_LIST) {
-      this._routerName = value !== 'discover' ? value : 'popular';
-    };
-    @Output() pages = new EventEmitter<UrlQueryParam | number>();
-  
-    get getRouterName(): ROUTE_LIST {
-      return this._routerName;
+  @Input('Movies') $Movies: Observable<Response_Data> = of();
+  @Input('type') type: string = 'movie';
+
+  @Input('MovieClassName') set $nameOfRoute(value: ROUTE_LIST) {
+    this._routerName = value !== 'discover' ? value : 'popular';
+  };
+  @Output() pages = new EventEmitter<UrlQueryParam | number>();
+
+  get getRouterName(): ROUTE_LIST {
+    return this._routerName;
+  }
+
+  constructor(private route: ActivatedRoute) { }
+
+  pageChange(d: any): any {
+    const params: UrlQueryParam = this.route.snapshot.queryParams;
+    if (params.language) {
+      this.pages.emit({ language: params.language, page: d });
+    } else {
+      this.pages.emit(d);
     }
-  
-    constructor(private route: ActivatedRoute) { }
-  
-    pageChange(d: any): any {
-      const params: UrlQueryParam = this.route.snapshot.queryParams;
-      if (params.language) {
-        this.pages.emit({ language: params.language, page: d });
-      } else {
-        this.pages.emit(d);
-      }
-    }
+  }
 }
