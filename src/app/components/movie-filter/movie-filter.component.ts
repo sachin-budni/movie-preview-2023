@@ -5,6 +5,7 @@ import { Observable, Subscription, map, of } from 'rxjs';
 import { MovieService } from 'src/app/service/movie.service';
 import { UserMaterialModule } from '../user-material.module';
 import { CommonModule } from '@angular/common';
+import { routeType } from 'src/app/utils/utils';
 
 @Component({
     selector: 'app-movie-filter',
@@ -15,7 +16,6 @@ import { CommonModule } from '@angular/common';
 export class MovieFilterComponent implements OnInit {
   filteredOptions: Observable<any> = of();
   searchForm: FormGroup = this.fb.group({ movie: [] });
-  activetedRouterName: string = "";
   constrollerSubscription: Subscription | undefined;
   @ViewChild('filter') filterInput: any;
   constructor(private movie: MovieService,
@@ -24,27 +24,24 @@ export class MovieFilterComponent implements OnInit {
               }
 
   ngOnInit(): void {
-    this.constrollerSubscription = this.searchForm.controls['movie'].valueChanges.subscribe((movie: string) => {
+    this.constrollerSubscription = this.searchForm.controls['movie']
+    .valueChanges.subscribe((movie: string) => {
       if (movie && movie.length !== 0) {
-        const name = this.router.url.split('/')[1];
-        const routeName = name === 'people' ? 'person' : name;
-        this.filteredOptions = this.movie.searchMovieName(movie, routeName).pipe(
+        const routeName = this.currentRoute;
+        this.filteredOptions = this.movie
+        .searchMovieName(movie, routeName).pipe(
           map((movies: any) => movies.results)
         );
       }
     });
   }
 
-  ActivetedRouter(event: any): void {
-    // this.searchForm.controls['movie'].setValue('');
-    this.activetedRouterName = event;
-  }
-
   onSubmitMovieSearch(movie: any, event?: any): void {
-    const route = this.currentRoute;
+    const route = this.currentRoute === 'person' ? 'people' : this.currentRoute;
     if (movie && movie.movie && typeof movie !== 'string') {
       this.router.navigate(['/'+route+'/popular', movie.movie.id ]);
       this.searchForm.controls['movie'].reset();
+      this.filteredOptions = of([]);
       event && event.stopPropagation();
     }
   }
@@ -55,7 +52,7 @@ export class MovieFilterComponent implements OnInit {
 
   get currentRoute() {
     const name = this.router.url.split('/')[1];
-    return name;
+    return routeType.indexOf(name) !== -1 ? name === 'people' ? 'person' : name : 'movie';
   }
 
   displayFn(value: any): any {

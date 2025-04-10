@@ -21,6 +21,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { UserMaterialModule } from 'src/app/components/user-material.module';
 import { CardComponent } from 'src/app/components/card/card.component';
+import { PaginationComponent } from 'src/app/components/pagination/pagination.component';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { CardComponent } from 'src/app/components/card/card.component';
     CommonModule,
     PeopleRoutingModule,
     UserMaterialModule,
-    CardComponent
+    CardComponent,
+    PaginationComponent
   ]
 })
 export class PeopleModule { }

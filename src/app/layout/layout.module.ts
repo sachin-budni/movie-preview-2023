@@ -2,14 +2,15 @@ import { InjectionToken, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LayoutComponent } from './layout.component';
 import { UserMaterialModule } from '../components/user-material.module';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 import { MovieService } from '../service/movie.service';
-import { MovieApiInterceptor } from '../service/api.interceptor';
+import { movieApiInterceptor } from '../service/api.interceptor';
 import { LanguageFilterComponent } from '../components/language-filter/language-filter.component';
 import { MovieFilterComponent } from '../components/movie-filter/movie-filter.component';
 import { ThemeDirective } from '../theme/theme.directive';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { ErrorService } from '../service/error.service';
 const routes: Routes = [
   { path: '', component: LayoutComponent, children: [
     { path: 'all/trendingchart', loadComponent: () => import('./../components/trending-chart/trending-chart.component')
@@ -39,17 +40,13 @@ export const THEME_SERVICE = new InjectionToken<ThemeConfig>('sample');
         MovieFilterComponent,
         ThemeDirective], providers: [
         MovieService,
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: MovieApiInterceptor,
-            multi: true
-        },
+        ErrorService,
         {
             provide: THEME_SERVICE,
             useFactory: themeService,
             deps: []
         },
-        provideHttpClient(withInterceptorsFromDi())
+        provideHttpClient(withInterceptors([movieApiInterceptor]))
     ] })
 export class LayoutModule { }
 

@@ -1,0 +1,16 @@
+@if ($Movies | async; as Movies) {
+    <div class="movies">
+      @for (movie of Movies.results; track $index) {
+      <app-card [link]="'/'+type+'/'+getRouterName" [credits]="movie" class="example-card"></app-card>
+      }
+      @if (Movies.total_results === 0) {
+        <div class="no-data">
+          <img src="assets/no_data.svg" alt="no_data" />
+        </div>
+      }
+    </div>
+    @if (Movies.total_results !== 0) {
+      <app-pagination [Movies]="Movies" (changePage)="pageChange($event)"></app-pagination>
+    }
+    }
+    

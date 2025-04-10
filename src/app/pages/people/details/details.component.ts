@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, of, shareReplay, Subscription } from 'rxjs';
 import { VideoComponent } from 'src/app/components/video/video.component';
 import { MovieService } from 'src/app/service/movie.service';
 import { getRouteName } from 'src/app/utils/utils';
@@ -29,7 +29,7 @@ export class DetailsComponent implements OnInit {
   ngOnInit(): any {
     this.paramSubscription = this.route.params.subscribe((s: any) => {
       this.id = s.id;
-      this.$movieDetails = this.movie.getDetails(this.id, this.type);
+      this.$movieDetails = this.movie.getDetails(this.id, this.type).pipe(shareReplay());
       this.$credits = this.movie.getPersonCred(this.id);
       this.routeName = getRouteName(this.router.url);
       this.setTitle();

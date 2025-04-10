@@ -14,7 +14,7 @@ export class PeopleComponent {
   @Output() pages = new EventEmitter<any>();
   route = inject(ActivatedRoute);
 
-  pageChange(d: number): any {
+  pageChange(d: any): any {
     const params: any = this.route.snapshot.queryParams;
     if (params.language) {
       this.pages.emit({

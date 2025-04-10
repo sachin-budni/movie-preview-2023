@@ -17,7 +17,6 @@ import { THEME_SERVICE, ThemeConfig } from './layout.module';
     standalone: false
 })
 export class LayoutComponent implements OnInit {
-  activetedRouterName: any;
   URL = 'http://localhost:4000/';
   links = [
     {
@@ -84,7 +83,7 @@ export class LayoutComponent implements OnInit {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     const domain = (isPlatformServer(platformId)) ? this.URL : '';
-    this.mobileQuery.addListener(this._mobileQueryListener);
+    this.mobileQuery.addEventListener('change',this._mobileQueryListener);
     this.matIconRegistry.addSvgIcon('left_arrow', this.domSanitizer.bypassSecurityTrustResourceUrl(domain + 'assets/left_arrow.svg'));
     this.matIconRegistry.addSvgIcon('right_arrow', this.domSanitizer.bypassSecurityTrustResourceUrl(domain + 'assets/right_arrow.svg'));
     this.matIconRegistry.addSvgIcon('menu', this.domSanitizer.bypassSecurityTrustResourceUrl(domain + 'assets/menu.svg'));

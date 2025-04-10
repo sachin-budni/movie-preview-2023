@@ -1,27 +1,23 @@
-import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
-import { catchError, Observable, of, Subject, takeUntil } from 'rxjs';
+import { inject } from '@angular/core';
+import { HttpRequest, HttpEvent, HttpErrorResponse, HttpHandlerFn } from '@angular/common/http';
+import { catchError, Observable, of } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-@Injectable()
-export class MovieApiInterceptor implements HttpInterceptor {
-  API_URL = 'https://api.themoviedb.org/3';
-  API_KEY = 'api_key=' + '4b10cf2f8e6ed1fcb506bd3929ecee40';
-
-  constructor(private snackBar: MatSnackBar) {}
-
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const url = req.url.replace('api_key=', this.API_KEY);
+export function movieApiInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn)
+: Observable<HttpEvent<unknown>> {
+  const snackBar = inject(MatSnackBar);
+  const API_URL = 'https://api.themoviedb.org/3';
+  const API_KEY = 'api_key=' + '4b10cf2f8e6ed1fcb506bd3929ecee40';
+  const url = req.url.replace('api_key=', API_KEY);
     if (req.url.includes('.svg')) {
-      return next.handle(req);
+      return next(req);
     }
     const request = req.clone({
-      url: this.API_URL + url
+      url: API_URL + url
     });
-    return next.handle(request)
+    return next(request)
     .pipe(catchError((err: HttpErrorResponse) => {
-      this.snackBar.open(err.message, 'bottom', { duration: 5 })
+      snackBar.open(err.message, 'bottom', { duration: 5 })
       return of()
     }));
-  }
 }

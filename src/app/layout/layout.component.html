@@ -18,7 +18,7 @@
           routerLinkActive="active"
           class="trend"
           routerLink="/all/trendingchart"
-          (click)="snav.toggle()"
+          (click)="mobileQuery.matches && snav.toggle()"
         >
           All Trending Chart
         </button>
@@ -32,7 +32,7 @@
             <mat-nav-list class="nav-list">
               @for (nav of link.links; track nav.path) {
                 <a mat-list-item routerLinkActive="active"
-                (click)="snav.toggle()"
+                (click)="mobileQuery.matches && snav.toggle()"
                   routerLink="/{{link.link}}/{{nav.path}}">
                   <span class="link-name">{{nav.name}}</span>
                 </a>

@@ -57,6 +57,7 @@
       }
     </div>
   </div>
-  <app-tv [Movies]="$similarTV" (pages)="nextOrPreviousPage($event)" [MovieClassName]="routeName"></app-tv>
+  <!-- <app-tv [Movies]="$similarTV" (pages)="nextOrPreviousPage($event)" [MovieClassName]="routeName"></app-tv> -->
+  <app-card-movie-tv [Movies]="$similarTV" (pages)="nextOrPreviousPage($event)" [MovieClassName]="routeName" type="tv"></app-card-movie-tv>
 </div>
 }

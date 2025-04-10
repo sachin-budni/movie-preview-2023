@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { MovieListComponent } from './movie-list/movie-list.component';
 import { LatestMoviesComponent } from './latest-movies/latest-movies.component';
-import { MovieDetailsComponent } from './movie-details/movie-details.component';
 import { MovieLayoutComponent } from './movie-layout/movie-layout.component';
 const routes: Routes = [
   { path: 'movie', component: MovieLayoutComponent, children: [
@@ -15,10 +14,10 @@ const routes: Routes = [
       { path: 'latest', component: LatestMoviesComponent, data: { title: 'latest', name: 'Latest Movies' } },
       { path: 'top-rated', component: MovieListComponent, data: { title: 'top-rated', name: 'Top-rated Movies' } },
       { path: 'now-playing', component: MovieListComponent, data: { title: 'now-playing', name: 'Now-playing Movies' } },
-      { path: 'popular/:id', component: MovieDetailsComponent },
-      { path: 'upcoming/:id', component: MovieDetailsComponent },
-      { path: 'top-rated/:id', component: MovieDetailsComponent },
-      { path: 'now-playing/:id', component: MovieDetailsComponent },
+      { path: 'popular/:id', loadComponent: () => import('./../../components/details/details.component').then(c => c.DetailsComponent) },
+      { path: 'upcoming/:id', loadComponent: () => import('./../../components/details/details.component').then(c => c.DetailsComponent) },
+      { path: 'top-rated/:id', loadComponent: () => import('./../../components/details/details.component').then(c => c.DetailsComponent) },
+      { path: 'now-playing/:id', loadComponent: () => import('./../../components/details/details.component').then(c => c.DetailsComponent) },
       { path: '', redirectTo: 'popular', pathMatch: 'full' },
     ],
   },

@@ -8,3 +8,5 @@ export const getRoute = (path: string): string => {
     const f2 = path.lastIndexOf('?') === -1 ? path.length - 1 : path.lastIndexOf('?') ;
     return path.substring(f1 + 1, f2);
 }
+
+export const routeType = ['movie', 'tv', 'people']; 
