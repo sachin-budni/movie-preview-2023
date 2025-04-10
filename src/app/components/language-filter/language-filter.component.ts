@@ -5,7 +5,6 @@ import { map, Subscription } from 'rxjs';
 import { MovieService } from 'src/app/service/movie.service';
 import { UserMaterialModule } from '../user-material.module';
 import { CommonModule } from '@angular/common';
-import { getRoute } from 'src/app/utils/utils';
 
 @Component({
     selector: 'app-language-filter',

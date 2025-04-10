@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { VideoComponent } from './video/video.component';
 import { VideoPipe } from '../pipes/video.pipe';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -17,8 +16,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTabsModule } from '@angular/material/tabs';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterModule } from '@angular/router';
 
@@ -36,11 +33,9 @@ const MATERIAL_MODULE = [
   MatSlideToggleModule,
   MatTooltipModule,
   MatExpansionModule,
-  MatProgressSpinnerModule,
   MatDialogModule,
   MatSnackBarModule,
   MatTabsModule,
-  MatChipsModule
 ];
 
 @NgModule({

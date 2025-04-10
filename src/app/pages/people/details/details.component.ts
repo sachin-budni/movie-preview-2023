@@ -53,4 +53,8 @@ export class DetailsComponent implements OnInit {
   ngOnDestroy() {
     this.paramSubscription?.unsubscribe();
   }
+  trackBy() {
+    console.log("called")
+    return Math.floor(Math.random() * 1000000);
+  }
 }
