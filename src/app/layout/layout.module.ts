@@ -1,25 +1,25 @@
 import { InjectionToken, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LayoutComponent } from './layout.component';
-import { UserMaterialModule } from '../components/user-material.module';
+import { UserMaterialModule } from '../shared/components/user-material.module';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
-import { MovieService } from '../service/movie.service';
-import { movieApiInterceptor } from '../service/api.interceptor';
-import { LanguageFilterComponent } from '../components/language-filter/language-filter.component';
-import { MovieFilterComponent } from '../components/movie-filter/movie-filter.component';
-import { ThemeDirective } from '../theme/theme.directive';
+import { MovieService } from '../core/service/movie.service';
+import { movieApiInterceptor } from '../core/interceptors/api.interceptor';
+import { LanguageFilterComponent } from '../shared/components/language-filter/language-filter.component';
+import { MovieFilterComponent } from '../shared/components/movie-filter/movie-filter.component';
+import { ThemeDirective } from '../shared/theme/theme.directive';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ErrorService } from '../service/error.service';
+import { ErrorService } from '../core/service/error.service';
 const routes: Routes = [
   { path: '', component: LayoutComponent, children: [
-    { path: 'all/trendingchart', loadComponent: () => import('./../components/trending-chart/trending-chart.component')
+    { path: 'all/trendingchart', loadComponent: () => import('../shared/components/trending-chart/trending-chart.component')
       .then(c => c.TrendingChartComponent) , data: { title: 'trendingchart', name: 'Trending Chart' } },
-    { path: 'tv', loadChildren: () => import('./../pages/tv/tv.module').then(m=> m.TvModule) },
-    { path: 'people', loadChildren: () => import('./../pages/people/people.module').then(m=> m.PeopleModule) },
-    { path: 'movie', loadChildren: () => import('./../pages/movie/movie.module').then(m=> m.MovieModule) },
+    { path: 'tv', loadChildren: () => import('./../features/tv/tv.module').then(m=> m.TvModule) },
+    { path: 'people', loadChildren: () => import('./../features/people/people.module').then(m=> m.PeopleModule) },
+    { path: 'movie', loadChildren: () => import('./../features/movie/movie.module').then(m=> m.MovieModule) },
     { path: '', redirectTo: 'movie',pathMatch: 'full' },
-    { path: '**', loadComponent: () => import('./../components/page-not-found.component')
+    { path: '**', loadComponent: () => import('../shared/components/page-not-found.component')
       .then(c => c.PageNotFoundComponent)
      }
   ] },

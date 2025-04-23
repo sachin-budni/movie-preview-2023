@@ -4,7 +4,7 @@ import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, PLATFORM_ID, 
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Observable, of, Subscription } from 'rxjs';
-import { MovieService } from '../service/movie.service';
+import { MovieService } from '../core/service/movie.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
 import { THEME_SERVICE, ThemeConfig } from './layout.module';
