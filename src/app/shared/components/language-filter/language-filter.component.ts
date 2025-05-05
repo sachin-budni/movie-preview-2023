@@ -5,6 +5,7 @@ import { map, Subscription } from 'rxjs';
 import { MovieService } from 'src/app/core/service/movie.service';
 import { UserMaterialModule } from '../user-material.module';
 import { CommonModule } from '@angular/common';
+import { getRoute, getRouteName, getRoutePath } from '../../utils/utils';
 
 @Component({
     selector: 'app-language-filter',
@@ -50,7 +51,8 @@ export class LanguageFilterComponent implements OnInit {
 
   onSubmitLanguage(value: any): any {
     if (!value.language) return;
-    this.router.navigate([`/movie/discover`], { queryParams: { page: 1, language: value.language.iso_639_1  } });
+    const routeName = getRoutePath(this.router.url);
+    this.router.navigate([`/${routeName === 'people' ? 'movie' : routeName }/discover`], { queryParams: { page: 1, language: value.language.iso_639_1  } });
   }
 
   ngOnDestroy() {

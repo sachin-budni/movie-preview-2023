@@ -52,6 +52,9 @@ export class TvListComponent implements OnInit {
       case 'now-playing':
         this.$movieList = this.movieService.getList(Types_of_Routes.TV, Types_of_Tv.AIRING_TODAY, Obj);
         break;
+      case 'discover':
+        this.$movieList = this.movieService.getDiscover(Types_of_Routes.TV, Types_of_Tv.DISCOVER, Obj);
+        break;
       default:
         this.$movieList = this.movieService.getList(Types_of_Routes.TV, this.routeName, Obj);
         break;

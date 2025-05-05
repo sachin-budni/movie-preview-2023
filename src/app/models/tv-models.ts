@@ -6,5 +6,6 @@ export enum Types_of_Tv {
     POPULAR = 'popular',
     LATEST = 'latest',
     ON_THE_AIR = 'on_the_air',
-    AIRING_TODAY = 'airing_today'
+    AIRING_TODAY = 'airing_today',
+    DISCOVER = 'discover'
 }

@@ -7,6 +7,7 @@ const routes: Routes = [
   { path: 'trendingchart', loadComponent: () => import('../../shared/components/trending-chart/trending-chart.component')
     .then(c => c.TrendingChartComponent) , data: { title: 'trendingchart', name: 'Trending Chart of TV' } },
   { path: 'popular', component: TvListComponent, data: { title: 'popular', name: 'Popular Tv-show' } },
+  { path: 'discover', component: TvListComponent, data: { title: 'discover', name: 'Discover Movies' } },
   { path: 'upcoming', component: TvListComponent, data: { title: 'upcoming', name: 'Upcoming Tv-show' } },
   { path: 'latest', component: LatestComponent, data: { title: 'latest', name: 'Latest Tv-show' } },
   { path: 'top-rated', component: TvListComponent, data: { title: 'top-rated', name: 'Top-rated Tv-show' } },
