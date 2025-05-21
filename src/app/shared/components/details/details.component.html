@@ -1,6 +1,9 @@
 @if ($movieDetails | async; as movie) {
     <div class="container">
       <div class="row column-md main-head">
+        <!-- @if (movie.backdrop_path) {
+          <div class="bg-image" [style]="'--backdrop: url(https://image.tmdb.org/t/p/w500'+ movie.backdrop_path+')'"></div>
+        } -->
         <div class="poster-section">
           <img [src]="movie.poster_path ? 'https://image.tmdb.org/t/p/w500'+movie.poster_path : 'assets/no_poster.jpg'"
             alt="">
@@ -18,10 +21,13 @@
         </div>
         <div class="tv-details">
           <h3 class="title">{{movie.title ? movie.title : movie.name}}</h3>
-          @for (gen of movie.genres; track gen.id) {
-            <span class="genres">{{gen.name}}</span>
-          }
-          <div class="p-tb-1"></div>
+          <mat-chip-set aria-label="Fish selection">
+            @for (gen of movie.genres; track gen.id) {
+              <mat-chip>{{gen.name}}</mat-chip>
+              <!-- <span class="genres">{{gen.name}}</span> -->
+            }
+            <div class="p-tb-1"></div>
+          </mat-chip-set>
           <i class="tag-line">{{movie.tagline}}</i>
           <div class="p-tb-1"></div>
           @if (movie.overview) {
@@ -58,6 +64,13 @@
           <button mat-stroked-button class="button-color" (click)="playTrailer(movie.videos.results[0])">
             <mat-icon>play_arrow</mat-icon>Play Trailer
           </button>
+          }
+          @if(movie.imdb_id) {
+            <div class="p-t-1">
+              <a [href]="`https://www.imdb.com/title/${movie.imdb_id}`" target="_blank" rel="IMDB Link">
+                <img src="assets/imdb-icon.svg" alt="IMDB Icon">
+              </a>
+            </div>
           }
         </div>
       </div>

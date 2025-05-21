@@ -17,6 +17,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatChipsModule } from '@angular/material/chips';
 import { RouterModule } from '@angular/router';
 
 
@@ -36,6 +37,7 @@ const MATERIAL_MODULE = [
   MatDialogModule,
   MatSnackBarModule,
   MatTabsModule,
+  MatChipsModule
 ];
 
 @NgModule({
