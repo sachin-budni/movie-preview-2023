@@ -57,8 +57,8 @@ export class MovieService {
     return this.http.get<Response_Data>(api);
   }
 
-  getTrendingCharts(type: string): any {
-    return this.http.get(`/trending/${type}/day?api_key=`);
+  getTrendingCharts(type: string, topic: string): any {
+    return this.http.get(`/trending/${type}/${topic}?api_key=`);
   }
 
   getDetails(id: number, type: string): Observable<any> {

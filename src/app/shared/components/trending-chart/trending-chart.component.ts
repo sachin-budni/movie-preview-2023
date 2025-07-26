@@ -1,8 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EChartsOption } from 'echarts';
 import * as echarts from 'echarts';
-import { Subscription } from 'rxjs';
+import { Subscription, switchMap } from 'rxjs';
 import { MovieService } from 'src/app/core/service/movie.service';
 
 const img = `width: 60px;height: 60px;border-radius: 50%;object-fit: cover;`
@@ -11,6 +14,7 @@ const img = `width: 60px;height: 60px;border-radius: 50%;object-fit: cover;`
   selector: 'app-trending-chart',
   templateUrl: './trending-chart.component.html',
   styleUrls: ['./trending-chart.component.scss'],
+  imports: [MatFormFieldModule, MatSelectModule, ReactiveFormsModule]
 })
 export class TrendingChartComponent implements OnInit {
   routeName = 'trendingchart';
@@ -20,6 +24,14 @@ export class TrendingChartComponent implements OnInit {
   error: any = 'Loading...';
   @ViewChild('main', { static: true }) main!: ElementRef;
   getTrendingChartsSubscription: Subscription | undefined;
+  topicSubscription: Subscription | undefined;
+  topicForm = new FormControl('day');
+  echarts: any = null;
+
+  topics: { name: string, value: string }[] = [
+    { name: 'Day', value: 'day' },
+    { name: 'Week', value: 'week' }
+  ];
 
   chartOption: EChartsOption = {
     color: ['#4fffc3'],
@@ -106,15 +118,15 @@ export class TrendingChartComponent implements OnInit {
     this.movieService.setTitle(name);
     if (this.rating.length === 0) {
       this.getTrendingChartsSubscription = this.movieService
-      .getTrendingCharts(type === 'people' ? 'person' : type)
+      .getTrendingCharts(type === 'people' ? 'person' : type, 'day')
         .subscribe((data: any) => {
           this.rating.push(...data.results.map((d: any) => ({ value: d.vote_average ?? d.popularity, ...d })));
           this.movieTitles.push(...data.results.map((d: any) => (d.title ? d.title : d.name)));
           this.all = data.results;
           this.error = '';
-          const echart = echarts.init(this.main.nativeElement);
-          echart.setOption(this.chartOption);
-          echart.on('click', (params: any) => {
+          this.echarts = echarts.init(this.main.nativeElement);
+          this.echarts.setOption(this.chartOption);
+          this.echarts.on('click', (params: any) => {
             const { media_type } = params.data;
             if (params.data.id && media_type) {
               const path = media_type === 'person' ? 'people' : media_type;
@@ -123,9 +135,33 @@ export class TrendingChartComponent implements OnInit {
           })
         }, (err: any) => this.error = err);
     }
+
+    this.topicSubscription = this.topicForm.valueChanges.pipe(switchMap(value => {
+      return this.movieService
+        .getTrendingCharts(type === 'people' ? 'person' : type,value === 'day' ? 'day' : 'week')
+    })).subscribe((data: any) => {
+      if (data.results.length !== 0) {
+          this.rating = [];
+          this.movieTitles = [];
+          this.rating.push(...data.results.map((d: any) => ({ value: d.vote_average ?? d.popularity, ...d })));
+          this.movieTitles.push(...data.results.map((d: any) => (d.title ? d.title : d.name)));
+          this.all = data.results;
+          this.error = '';
+          this.echarts.setOption({
+            xAxis: {
+              data: this.movieTitles
+            },
+            series: [{
+              data: this.rating
+            }]
+          });
+        }
+    }, (err: any) => this.error = err);
   }
 
   ngOnDestroy() {
     this.getTrendingChartsSubscription?.unsubscribe();
+    this.topicSubscription?.unsubscribe();
+    
   }
 }

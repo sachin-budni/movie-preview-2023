@@ -39,6 +39,16 @@ body {
   // color: var(--text-color);
 }
 
+.select-list-form-field .mdc-text-field--filled {
+  background-color: var(--app-background) !important;
+  color: var(--text-color) !important;
+}
+.select-list-form-field label,
+.select-list-form-field .mat-mdc-select,
+.select-list-form-field .mat-mdc-select-arrow {
+  color: var(--text-color) !important;
+}
+
 .w-100 {
   width: 100%;
 }
